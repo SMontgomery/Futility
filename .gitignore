@@ -1,0 +1,6 @@
+.DS_Store
+.idea/
+.cache/
+scrap/
+dist/
+node_modules/
