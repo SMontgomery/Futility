@@ -1,82 +1,73 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import Project from '../project/project';
 import { drawCircle, drawLine } from '../utils/draw';
 
 const PEG_RADIUS = 1.5;
 
-export class WorkSurface extends React.Component {
+function WorkSurface(props) {
+    const canvasRef = useRef();
+    const beadSize = 20;
+    const backgroundColor = 'white';
+    const pegColor = 'gray';
+    const lineGridColor = 'gray';
+    const boardGridColor = 'blue';
 
-    constructor(props) {
-        super(props);
+    const requiredWidth = beadSize * props.project.getPegsAcross();
+    const requiredWeight = beadSize * props.project.getPegsDown();
 
-        this.state = {
-            beadSize: 20,
-            backgroundColor: 'white',
-            pegColor: 'gray',
-            lineGridColor: 'gray',
-            boardGridColor: 'blue'
-        };
-    }
-
-    componentDidMount() {
-        const { project } = this.props;
-        const canvas = this.refs.board;
+    useEffect(() => {
+        const { project } = props;
+        const canvas = canvasRef.current;
         const context = canvas.getContext('2d');
 
         // Draw background
-        context.fillStyle = this.state.backgroundColor;
+        context.fillStyle = backgroundColor;
         context.fillRect(0, 0, canvas.width, canvas.height);
 
         // Draw pegs
-        context.fillStyle = this.state.pegColor;
-        for (let x = this.state.beadSize / 2; x < canvas.width; x += this.state.beadSize) {
-            for (let y = this.state.beadSize / 2; y < canvas.height; y += this.state.beadSize) {
+        context.fillStyle = pegColor;
+        for (let x = beadSize / 2; x < canvas.width; x += beadSize) {
+            for (let y = beadSize / 2; y < canvas.height; y += beadSize) {
                 drawCircle(context, x, y, PEG_RADIUS);
             }
         }
 
         // Draw line grid
-        context.strokeStyle = this.state.lineGridColor;
+        context.strokeStyle = lineGridColor;
         // Y lines
-        for (let x = 0; x <= canvas.width; x += this.state.beadSize) {
+        for (let x = 0; x <= canvas.width; x += beadSize) {
             drawLine(context, x, .5, x, canvas.height);
         }
 
         // X lines
-        for (let y = 0; y <= canvas.height; y += this.state.beadSize) {
+        for (let y = 0; y <= canvas.height; y += beadSize) {
             drawLine(context, .5, y, canvas.width, y);
         }
 
         // Draw board grid
-        context.strokeStyle = this.state.boardGridColor;
+        context.strokeStyle = boardGridColor;
         // Y lines
-        for (let x = 0; x <= canvas.width; x += this.state.beadSize * project.boardHeight) {
+        for (let x = 0; x <= canvas.width; x += beadSize * project.boardHeight) {
             drawLine(context, x, .5, x, canvas.height);
         }
 
         // X lines
-        for (let y = 0; y <= canvas.height; y += this.state.beadSize * project.boardWidth) {
+        for (let y = 0; y <= canvas.height; y += beadSize * project.boardWidth) {
             drawLine(context, .5, y, canvas.width, y);
         }
+    });
 
-    }
-
-    render() {
-        const { project } = this.props;
-
-        const requiredWidth = this.state.beadSize * project.getPegsAcross();
-        const requiredWeight = this.state.beadSize * project.getPegsDown();
-
-        return (
-            <div>
-                <canvas ref="board" width={requiredWidth} height={requiredWeight} />
-            </div>
-        );
-    }
+    return (
+        <div>
+            <canvas ref={canvasRef} width={requiredWidth} height={requiredWeight} />
+        </div>
+    );
 
 }
 
 WorkSurface.propTypes = {
     project: PropTypes.instanceOf(Project).isRequired
 };
+
+export default WorkSurface;

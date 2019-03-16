@@ -1,29 +1,19 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import Project from '../project/project';
-import { WorkSurface } from './WorkSurface';
+import WorkSurface from './WorkSurface';
+import Header from './Header';
 
-class Application extends React.Component {
+function Application(props) {
+    const project = new Project(10, 10, 2, 2);
 
-    constructor(props) {
-        super(props);
+    return (
+        <React.Fragment>
+            <Header appName={props.appName} />
 
-        this.state = {
-            project: new Project(10, 10, 2, 2)
-        };
-    }
-
-    render() {
-        const {appName} = this.props;
-
-        return (
-            <div>
-                <h1>{ appName }</h1>
-
-                <WorkSurface project={this.state.project} />
-            </div>
-        );
-    }
+            <WorkSurface project={project} />
+        </React.Fragment>
+    );
 }
 
 Application.propTypes = {

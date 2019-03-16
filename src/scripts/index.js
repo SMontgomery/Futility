@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Application from './components/Application';
 
+import '@blueprintjs/core/lib/css/blueprint.css';
 import '../styles/index.scss';
 
 const appName = 'Futility';
