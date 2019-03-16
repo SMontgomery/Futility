@@ -59,7 +59,7 @@ function WorkSurface(props) {
     });
 
     return (
-        <div>
+        <div className={props.className}>
             <canvas ref={canvasRef} width={requiredWidth} height={requiredWeight} />
         </div>
     );
@@ -67,6 +67,7 @@ function WorkSurface(props) {
 }
 
 WorkSurface.propTypes = {
+    className: PropTypes.string,
     project: PropTypes.instanceOf(Project).isRequired
 };
 

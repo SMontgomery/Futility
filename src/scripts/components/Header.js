@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Navbar, NavbarDivider, NavbarGroup, NavbarHeading } from '@blueprintjs/core';
+import { Navbar, NavbarGroup, NavbarHeading } from '@blueprintjs/core';
 
 function Header(props) {
     return (
-        <Navbar>
+        <Navbar className={props.className}>
             <NavbarGroup>
                 <NavbarHeading>{ props.appName }</NavbarHeading>
             </NavbarGroup>
@@ -13,7 +13,8 @@ function Header(props) {
 }
 
 Header.propTypes = {
-    appName: PropTypes.string.isRequired
+    appName: PropTypes.string.isRequired,
+    className: PropTypes.string
 };
 
 export default Header;

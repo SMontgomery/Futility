@@ -1,0 +1,35 @@
+* {
+    box-sizing: border-box;
+}
+
+.page {
+    height: 100vh;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    grid-template-rows: 50px 1fr 25px;
+    grid-template-areas:
+        "header header header"
+        "left-sidebar main right-sidebar"
+        "footer footer footer";
+}
+
+.header {
+    grid-area: header;
+}
+
+.main {
+    grid-area: main;
+    overflow: auto;
+}
+
+.left-sidebar {
+    grid-area: left-sidebar;
+}
+
+.right-sidebar {
+    grid-area: right-sidebar;
+}
+
+.footer {
+    grid-area: footer;
+}
