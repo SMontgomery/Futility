@@ -1,6 +1,5 @@
-import { brands } from '../../scripts/project/brands';
 import Project from '../../scripts/project/project';
-import Bead from '../../scripts/project/bead';
+import { perlerBeads } from '../../scripts/project/beads/perler';
 
 describe('Test Project', () => {
 
@@ -82,11 +81,8 @@ describe('Test Project', () => {
             const boardsDown = 3;
             project = new Project(boardWidth, boardHeight, boardsAcross, boardsDown);
 
-            // Place bead for reference
-            const brand = brands.PERLER;
-            const color = '#0000ff';
-            const name = 'Blue';
-            referenceBead = new Bead(brand, color, name);
+            // Create and place reference bead
+            referenceBead = perlerBeads[0];
             project.placeBead(4, referenceBeadX, referenceBeadY, referenceBead);
         });
 
@@ -270,7 +266,7 @@ describe('Test Project', () => {
             const boardsAcross = 1;
             const boardsDown = 1;
             const project = new Project(boardWidth, boardHeight, boardsAcross, boardsDown);
-            const bead = new Bead(brands.PERLER, '#0000ff', 'Blue');
+            const bead = perlerBeads[0];
 
             project.placeBead(0, 1, 1, bead);
             expect(project.getBead(0, 1, 1)).toBe(bead);
@@ -284,7 +280,7 @@ describe('Test Project', () => {
             const boardsAcross = 1;
             const boardsDown = 1;
             const project = new Project(boardWidth, boardHeight, boardsAcross, boardsDown);
-            const bead = new Bead(brands.PERLER, '#0000ff', 'Blue');
+            const bead = perlerBeads[0];
 
             project.placeBead(0, 1, 1, bead);
             expect(project.getBead(0, 1, 1)).toBe(bead);
@@ -303,7 +299,7 @@ describe('Test Project', () => {
             const boardsAcross = 1;
             const boardsDown = 1;
             const project = new Project(boardWidth, boardHeight, boardsAcross, boardsDown);
-            const bead = new Bead(brands.PERLER, '#0000ff', 'Blue');
+            const bead = perlerBeads[0];
 
             project.placeBead(99, 0, 0, bead);
             expect(project.getBeadCount(bead)).toBe(0);
@@ -316,7 +312,7 @@ describe('Test Project', () => {
             const boardsAcross = 1;
             const boardsDown = 1;
             const project = new Project(boardWidth, boardHeight, boardsAcross, boardsDown);
-            const bead = new Bead(brands.PERLER, '#0000ff', 'Blue');
+            const bead = perlerBeads[0];
 
             project.placeBead(0, 99, 0, bead);
             expect(project.getBeadCount(bead)).toBe(0);
@@ -329,7 +325,7 @@ describe('Test Project', () => {
             const boardsAcross = 1;
             const boardsDown = 1;
             const project = new Project(boardWidth, boardHeight, boardsAcross, boardsDown);
-            const bead = new Bead(brands.PERLER, '#0000ff', 'Blue');
+            const bead = perlerBeads[0];
 
             project.placeBead(0, 0, 99, bead);
             expect(project.getBeadCount(bead)).toBe(0);

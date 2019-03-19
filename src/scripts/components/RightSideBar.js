@@ -1,17 +1,17 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-function SideBar(props) {
+function RightSideBar(props) {
     return (
         <div className={props.className}>
-            Side Bar
+            Side Bar 2
         </div>
     );
 }
 
-SideBar.propTypes = {
+RightSideBar.propTypes = {
     className: PropTypes.string
 };
 
-export default SideBar;
+export default RightSideBar;
 

@@ -1,6 +1,17 @@
 import logger from '../utils/logger';
+import { isEqual } from 'lodash';
+
+
 
 export default class Project {
+    /**
+     * @typedef {Object} Bead
+     * @property {string} brand - the bead brand
+     * @property {string} code - the bead code
+     * @property {string} name - the bead name
+     * @property {string} type - the bead type
+     * @property {string} color - the bead color
+     */
 
     /**
      * Construct a Project used for tracking the placement of boards and beads.
@@ -311,7 +322,7 @@ export default class Project {
         const oldBead = this.getBead(board, x, y);
         if (oldBead) {
             const beadIndex = this._beads.findIndex((beadInfo) => {
-                return beadInfo.bead.equals(oldBead);
+                return isEqual(beadInfo.bead, oldBead);
             });
 
             if (beadIndex >= 0) {
@@ -328,7 +339,7 @@ export default class Project {
         if (bead) {
             // Increment the new bead count.
             let beadIndex = this._beads.findIndex((beadInfo) => {
-                return beadInfo.bead.equals(bead);
+                return isEqual(beadInfo.bead, bead);
             });
 
             if (beadIndex >= 0) {
@@ -357,7 +368,7 @@ export default class Project {
      */
     getBeadCount(bead) {
         const beadIndex = this._beads.findIndex((beadInfo) => {
-            return beadInfo.bead.equals(bead);
+            return isEqual(beadInfo.bead, bead);
         });
 
         if (beadIndex >= 0) {
