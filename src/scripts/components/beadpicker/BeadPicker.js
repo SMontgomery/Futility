@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import BeadPalette from './BeadPalette';
 import BrandPicker from './BrandPicker';
 import SelectedBead from './SelectedBead';
-import BeadManager from '../../project/beadmanager';
-import { setSelectedBead, setSelectedBrand } from '../../state/actions/projectactions';
+import BeadManager from '../../project/beadManager';
+import { setSelectedBead, setSelectedBrand } from '../../state/actions/projectActions';
 
 function BeadPicker(props) {
 

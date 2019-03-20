@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import configureStore from './state/configurestore';
+import configureStore from './state/configureStore';
 import Application from './components/Application';
-import BeadManager from './project/beadmanager';
+import BeadManager from './project/beadManager';
 import brands from './project/brands';
-import { setSelectedBead, setSelectedBrand } from './state/actions/projectactions';
+import { setSelectedBead, setSelectedBrand } from './state/actions/projectActions';
 
 import 'normalize.css/normalize.css';
 import '@blueprintjs/core/lib/css/blueprint.css';

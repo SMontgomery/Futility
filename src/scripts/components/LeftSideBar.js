@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import BeadPicker from './beadpicker/BeadPicker';
-import BeadManager from '../project/beadmanager';
+import BeadManager from '../project/beadManager';
 
 function LeftSideBar(props) {
     return (

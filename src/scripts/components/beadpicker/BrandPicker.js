@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { HTMLSelect } from '@blueprintjs/core';
-import BeadManager from '../../project/beadmanager';
+import BeadManager from '../../project/beadManager';
 
 function BrandPicker(props) {
 

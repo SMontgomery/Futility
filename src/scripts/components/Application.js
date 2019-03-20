@@ -5,7 +5,7 @@ import WorkSurface from './WorkSurface';
 import Header from './Header';
 import LeftSideBar from './LeftSideBar';
 import StatusBar from './StatusBar';
-import BeadManager from '../project/beadmanager';
+import BeadManager from '../project/beadManager';
 import RightSideBar from './RightSideBar';
 
 const project = new Project(10, 10, 2, 2);
