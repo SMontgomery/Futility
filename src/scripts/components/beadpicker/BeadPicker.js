@@ -1,31 +1,47 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { connect } from 'react-redux';
 import BeadPalette from './BeadPalette';
 import BrandPicker from './BrandPicker';
 import SelectedBead from './SelectedBead';
-import { useProject } from '../Application';
 import BeadManager from '../../project/beadmanager';
+import { setSelectedBead, setSelectedBrand } from '../../state/actions/projectactions';
 
 function BeadPicker(props) {
-    const [projectState, dispatch] = useProject();
 
     return (
         <div>
-            <SelectedBead selectedBead={projectState.selectedBead} />
+            <SelectedBead selectedBead={props.selectedBead} />
             <BrandPicker
-                dispatch={dispatch}
                 beadManager={props.beadManager}
-                selectedBrand={projectState.selectedBrand} />
+                selectedBrand={props.selectedBrand}
+                setBrand={props.setBrand}
+            />
             <BeadPalette
-                dispatch={dispatch}
                 beadManager={props.beadManager}
-                selectedBrand={projectState.selectedBrand} />
+                selectedBrand={props.selectedBrand}
+                setBead={props.setBead}
+            />
         </div>
     );
 }
 
 BeadPicker.propTypes = {
-    beadManager: PropTypes.instanceOf(BeadManager).isRequired
+    beadManager: PropTypes.instanceOf(BeadManager).isRequired,
+    selectedBead: PropTypes.object.isRequired,
+    selectedBrand: PropTypes.string.isRequired,
+    setBead: PropTypes.func.isRequired,
+    setBrand: PropTypes.func.isRequired
 };
 
-export default BeadPicker;
+const mapStateToProps = (state) => ({
+    selectedBead: state.project.selectedBead,
+    selectedBrand: state.project.selectedBrand
+});
+
+const mapDispatchToProps = (dispatch) => ({
+    setBrand: (brand) => dispatch(setSelectedBrand(brand)),
+    setBead: (bead) => dispatch(setSelectedBead(bead))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(BeadPicker);

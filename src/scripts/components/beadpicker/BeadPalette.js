@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { setSelectedBead } from '../../state/actions/projectactions';
 import { Button } from '@blueprintjs/core';
 import BeadManager from '../../project/beadmanager';
 
@@ -12,7 +11,7 @@ function BeadPalette(props) {
                     <Button
                         key={bead.code}
                         style={{background: bead.color}}
-                        onClick={() => props.dispatch(setSelectedBead(bead))}
+                        onClick={() => props.setBead(bead)}
                     >
                         &nbsp;
                     </Button>
@@ -25,8 +24,8 @@ function BeadPalette(props) {
 
 BeadPalette.propTypes = {
     beadManager: PropTypes.instanceOf(BeadManager).isRequired,
-    dispatch: PropTypes.func.isRequired,
-    selectedBrand: PropTypes.string.isRequired
+    selectedBrand: PropTypes.string.isRequired,
+    setBead: PropTypes.func.isRequired
 };
 
 export default BeadPalette;
