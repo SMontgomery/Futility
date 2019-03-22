@@ -403,15 +403,14 @@ export default class Project {
      */
     getAllBeads() {
         let beadList = [];
-
         for(let boardIndex = 0; boardIndex < this.getBoardCount(); boardIndex++) {
             Object.keys(this._project.boards[boardIndex]).forEach((x) => {
                 Object.keys(this._project.boards[boardIndex][x]).forEach((y) => {
                     beadList.push({
                         boardIndex,
-                        boardX: x,
-                        boardY: y,
-                        bead: this._project.beads[this._project.boards[boardIndex][x][y]]
+                        boardX: parseInt(x),
+                        boardY: parseInt(y),
+                        bead: this._project.beads[this._project.boards[boardIndex][x][y]].bead
                     });
                 });
             });

@@ -1,14 +1,19 @@
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useReducer, useState } from 'react';
 import Project from '../project/project';
 import { drawCircle, drawLine } from '../utils/draw';
-import { throttle } from 'lodash';
 import { setMouseCoordinates } from '../state/actions/projectActions';
 
 const PEG_RADIUS = 1.5;
 
 function WorkSurface(props) {
+
+    const [ignored, forceUpdate] = useReducer(x => x + 1, 0);
+    const [leftMousePressed, setLeftMousePressed] = useState(false);
+    const [rightMousePressed, setRightMousePressed] = useState(false);
+    const [lastMousePosition, setLastMousePosition] = useState({});
+
     const { project } = props;
     const canvasRef = useRef();
     const beadSize = 20;
@@ -37,6 +42,13 @@ function WorkSurface(props) {
             }
         }
 
+        // Draw beads
+        project.getAllBeads().forEach(beadInfo => {
+            const { x, y } = calculateCanvasCoordiantes(beadInfo.boardIndex, beadInfo.boardX, beadInfo.boardY);
+            context.fillStyle = beadInfo.bead.color;
+            drawCircle(context, x, y, PEG_RADIUS + 5);
+        });
+
         // Draw line grid
         context.strokeStyle = lineGridColor;
         // Y lines
@@ -62,10 +74,26 @@ function WorkSurface(props) {
         }
     });
 
-    const calculatePegCoordinates = (canvasX, canvasY) => {
+    const calculateCanvasCoordiantes = (board, x, y) => {
+        // Determine the board x/y coordinates
+        const boardX = board % project.getBoardsAcross();
+        const boardY = Math.trunc(board / project.getBoardsAcross());
+
+        // Determine the overall peg x/y coordinates
+        const pegX = (boardX * project.getBoardWidth()) + x;
+        const pegY = (boardY * project.getBoardHeight()) + y;
+
+        // Determine canvas x/y for the center of the peg
+        return {
+            x: (pegX * beadSize) + (beadSize / 2),
+            y: (pegY * beadSize) + (beadSize / 2)
+        };
+    };
+
+    const calculatePegCoordinates = (event) => {
         // Determine overall peg x/y coordinates
-        const pegX = Math.trunc(canvasX / beadSize);
-        const pegY = Math.trunc(canvasY / beadSize);
+        const pegX = Math.trunc(event.offsetX / beadSize);
+        const pegY = Math.trunc(event.offsetY / beadSize);
 
         // Determine board x/y coordinates
         const boardX = Math.trunc(pegX / project.getBoardWidth());
@@ -87,9 +115,49 @@ function WorkSurface(props) {
 
     const onMouseMove = (event) => {
         const nativeEvent = event.nativeEvent;
-        throttleMouseMove(() =>
-            props.setMouseCoordinates(calculatePegCoordinates(nativeEvent.offsetX, nativeEvent.offsetY)));
+        const pegX = Math.trunc(nativeEvent.offsetX / beadSize);
+        const pegY = Math.trunc(nativeEvent.offsetY / beadSize);
+
+        if (pegX !== lastMousePosition.pegX || pegY !== lastMousePosition.pegY ) {
+            setLastMousePosition({ pegX, pegY });
+        } else {
+            return;
+        }
+
+        const coordinates = calculatePegCoordinates(nativeEvent);
+        props.setMouseCoordinates(coordinates);
+
+        if (leftMousePressed) {
+            project.placeBead(coordinates.boardIndex, coordinates.boardX, coordinates.boardY, props.selectedBead);
+            forceUpdate();
+        } else if (rightMousePressed) {
+            project.placeBead(coordinates.boardIndex, coordinates.boardX, coordinates.boardY, null);
+            forceUpdate();
+        }
     };
+
+    const onMouseDown = (event) => {
+        if (event.button === 0) {
+            setLeftMousePressed(true);
+        } else if (event.button === 2) {
+            setRightMousePressed(true);
+        } else {
+            return;
+        }
+
+        const nativeEvent = event.nativeEvent;
+        const coordinates = calculatePegCoordinates(nativeEvent);
+        project.placeBead(coordinates.boardIndex, coordinates.boardX, coordinates.boardY, props.selectedBead);
+        forceUpdate();
+    };
+
+    const onMouseUp = (event) => {
+        if (event.button === 0) {
+            setLeftMousePressed(false);
+        } else if (event.button === 2) {
+            setRightMousePressed(false);
+        }
+    }
 
     return (
         <div className={props.className}>
@@ -98,20 +166,25 @@ function WorkSurface(props) {
                 width={requiredWidth}
                 height={requiredWeight}
                 onMouseMove={onMouseMove}
+                onMouseDown={onMouseDown}
+                onMouseUp={onMouseUp}
+                onContextMenu={e => e.preventDefault()}
             />
+
         </div>
     );
 }
 
-const throttleMouseMove = throttle(func => func(), 125);
-
 WorkSurface.propTypes = {
     className: PropTypes.string,
     project: PropTypes.instanceOf(Project).isRequired,
-    setMouseCoordinates: PropTypes.func.isRequired
+    setMouseCoordinates: PropTypes.func.isRequired,
+    selectedBead: PropTypes.object
 };
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({
+    selectedBead: state.project.selectedBead
+});
 
 const mapDispatchToProps = (dispatch) => ({
     setMouseCoordinates: (coordinates) => dispatch(setMouseCoordinates(coordinates))
