@@ -1,11 +1,15 @@
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import React, { useEffect, useRef } from 'react';
 import Project from '../project/project';
 import { drawCircle, drawLine } from '../utils/draw';
+import { throttle } from 'lodash';
+import { setMouseCoordinates } from '../state/actions/projectActions';
 
 const PEG_RADIUS = 1.5;
 
 function WorkSurface(props) {
+    const { project } = props;
     const canvasRef = useRef();
     const beadSize = 20;
     const backgroundColor = 'white';
@@ -13,11 +17,11 @@ function WorkSurface(props) {
     const lineGridColor = 'gray';
     const boardGridColor = 'blue';
 
-    const requiredWidth = beadSize * props.project.getPegsAcross();
-    const requiredWeight = beadSize * props.project.getPegsDown();
+    const requiredWidth = beadSize * project.getPegsAcross();
+    const requiredWeight = beadSize * project.getPegsDown();
+
 
     useEffect(() => {
-        const { project } = props;
         const canvas = canvasRef.current;
         const context = canvas.getContext('2d');
 
@@ -48,27 +52,69 @@ function WorkSurface(props) {
         // Draw board grid
         context.strokeStyle = boardGridColor;
         // Y lines
-        for (let x = 0; x <= canvas.width; x += beadSize * project.boardHeight) {
+        for (let x = 0; x <= canvas.width; x += beadSize * project.getBoardHeight()) {
             drawLine(context, x, .5, x, canvas.height);
         }
 
         // X lines
-        for (let y = 0; y <= canvas.height; y += beadSize * project.boardWidth) {
+        for (let y = 0; y <= canvas.height; y += beadSize * project.getBoardWidth()) {
             drawLine(context, .5, y, canvas.width, y);
         }
     });
 
+    const calculatePegCoordinates = (canvasX, canvasY) => {
+        // Determine overall peg x/y coordinates
+        const pegX = Math.trunc(canvasX / beadSize);
+        const pegY = Math.trunc(canvasY / beadSize);
+
+        // Determine board x/y coordinates
+        const boardX = Math.trunc(pegX / project.getBoardWidth());
+        const boardY = Math.trunc(pegY / project.getBoardHeight());
+
+        // Determine board index
+        const boardIndex = boardX + (boardY * project.getBoardsAcross());
+
+        // Determine x/y coordinate on the board
+        const x = pegX % project.getBoardWidth();
+        const y = pegY % project.getBoardHeight();
+
+        return {
+            boardIndex,
+            boardX: x,
+            boardY: y
+        };
+    };
+
+    const onMouseMove = (event) => {
+        const nativeEvent = event.nativeEvent;
+        throttleMouseMove(() =>
+            props.setMouseCoordinates(calculatePegCoordinates(nativeEvent.offsetX, nativeEvent.offsetY)));
+    };
+
     return (
         <div className={props.className}>
-            <canvas ref={canvasRef} width={requiredWidth} height={requiredWeight} />
+            <canvas
+                ref={canvasRef}
+                width={requiredWidth}
+                height={requiredWeight}
+                onMouseMove={onMouseMove}
+            />
         </div>
     );
-
 }
+
+const throttleMouseMove = throttle(func => func(), 125);
 
 WorkSurface.propTypes = {
     className: PropTypes.string,
-    project: PropTypes.instanceOf(Project).isRequired
+    project: PropTypes.instanceOf(Project).isRequired,
+    setMouseCoordinates: PropTypes.func.isRequired
 };
 
-export default WorkSurface;
+const mapStateToProps = (state) => ({});
+
+const mapDispatchToProps = (dispatch) => ({
+    setMouseCoordinates: (coordinates) => dispatch(setMouseCoordinates(coordinates))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(WorkSurface);

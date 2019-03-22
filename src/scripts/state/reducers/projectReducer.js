@@ -1,4 +1,6 @@
-const projectReducerDefaultState = {};
+const projectReducerDefaultState = {
+
+};
 
 export default (state = projectReducerDefaultState, action) => {
     switch (action.type) {
@@ -12,6 +14,12 @@ export default (state = projectReducerDefaultState, action) => {
             return {
                 ...state,
                 selectedBrand: action.selectedBrand
+            };
+
+        case 'SET_MOUSE_COORDINATES':
+            return {
+                ...state,
+                mouseCoordinates: action.coordinates
             };
 
         default:
