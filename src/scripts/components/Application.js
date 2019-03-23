@@ -1,12 +1,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import Project from '../project/project';
-import WorkSurface from './WorkSurface';
 import Header from './Header';
 import LeftSideBar from './LeftSideBar';
 import StatusBar from './StatusBar';
 import BeadManager from '../project/beadManager';
 import RightSideBar from './RightSideBar';
+import WorkArea from './workarea/WorkArea';
 
 const project = new Project(10, 10, 2, 2);
 
@@ -18,7 +18,7 @@ function Application(props) {
 
             <LeftSideBar className='left-sidebar' beadManager={props.beadManager} />
 
-            <WorkSurface className='main' project={project} />
+            <WorkArea className='main' project={project} />
 
             <RightSideBar className='right-sidebar' />
 

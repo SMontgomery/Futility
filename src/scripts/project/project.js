@@ -365,13 +365,12 @@ export default class Project {
 
             // Place bead
             set(this._project.boards[board], `[${x}][${y}]`, beadIndex);
+            logger.debug(`Placed new bead and incremented count.`, this.constructor.name);
         } else {
             // Remove bead
             delete this._project.boards[board][x][y];
-
+            logger.debug(`Removed bead and decremented count.`, this.constructor.name);
         }
-
-        logger.debug(`Placed new bead and incremented count.`, this.constructor.name);
     }
 
     /**

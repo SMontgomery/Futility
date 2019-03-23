@@ -1,27 +1,22 @@
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import React, { useEffect, useRef, useReducer, useState } from 'react';
-import Project from '../project/project';
-import { drawCircle, drawLine } from '../utils/draw';
-import { setMouseCoordinates } from '../state/actions/projectActions';
+import React, { useEffect, useRef, useReducer } from 'react';
+
+import { drawCircle } from '../../utils/draw';
+import { setMouseCoordinates } from '../../state/actions/projectActions';
+import Project from '../../project/project';
 
 const PEG_RADIUS = 1.5;
 
-function WorkSurface(props) {
-
+const BeadCanvas = (props) => {
     const [ignored, forceUpdate] = useReducer(x => x + 1, 0);
-    const [leftMousePressed, setLeftMousePressed] = useState(false);
-    const [rightMousePressed, setRightMousePressed] = useState(false);
-    const [lastMousePosition, setLastMousePosition] = useState({});
+    const leftMousePressed = useRef(false);
+    const rightMousePressed = useRef(false);
+    const lastMousePosition = useRef({});
+    const canvasRef = useRef();
 
     const { project } = props;
-    const canvasRef = useRef();
     const beadSize = 20;
-    const backgroundColor = 'white';
-    const pegColor = 'gray';
-    const lineGridColor = 'gray';
-    const boardGridColor = 'blue';
-
     const requiredWidth = beadSize * project.getPegsAcross();
     const requiredWeight = beadSize * project.getPegsDown();
 
@@ -30,17 +25,8 @@ function WorkSurface(props) {
         const canvas = canvasRef.current;
         const context = canvas.getContext('2d');
 
-        // Draw background
-        context.fillStyle = backgroundColor;
-        context.fillRect(0, 0, canvas.width, canvas.height);
-
-        // Draw pegs
-        context.fillStyle = pegColor;
-        for (let x = beadSize / 2; x < canvas.width; x += beadSize) {
-            for (let y = beadSize / 2; y < canvas.height; y += beadSize) {
-                drawCircle(context, x, y, PEG_RADIUS);
-            }
-        }
+        // Clear background
+        context.clearRect(0, 0, canvas.width, canvas.height);
 
         // Draw beads
         project.getAllBeads().forEach(beadInfo => {
@@ -48,30 +34,6 @@ function WorkSurface(props) {
             context.fillStyle = beadInfo.bead.color;
             drawCircle(context, x, y, PEG_RADIUS + 5);
         });
-
-        // Draw line grid
-        context.strokeStyle = lineGridColor;
-        // Y lines
-        for (let x = 0; x <= canvas.width; x += beadSize) {
-            drawLine(context, x, .5, x, canvas.height);
-        }
-
-        // X lines
-        for (let y = 0; y <= canvas.height; y += beadSize) {
-            drawLine(context, .5, y, canvas.width, y);
-        }
-
-        // Draw board grid
-        context.strokeStyle = boardGridColor;
-        // Y lines
-        for (let x = 0; x <= canvas.width; x += beadSize * project.getBoardHeight()) {
-            drawLine(context, x, .5, x, canvas.height);
-        }
-
-        // X lines
-        for (let y = 0; y <= canvas.height; y += beadSize * project.getBoardWidth()) {
-            drawLine(context, .5, y, canvas.width, y);
-        }
     });
 
     const calculateCanvasCoordiantes = (board, x, y) => {
@@ -118,8 +80,8 @@ function WorkSurface(props) {
         const pegX = Math.trunc(nativeEvent.offsetX / beadSize);
         const pegY = Math.trunc(nativeEvent.offsetY / beadSize);
 
-        if (pegX !== lastMousePosition.pegX || pegY !== lastMousePosition.pegY ) {
-            setLastMousePosition({ pegX, pegY });
+        if (pegX !== lastMousePosition.current.pegX || pegY !== lastMousePosition.current.pegY ) {
+            lastMousePosition.current = { pegX, pegY };
         } else {
             return;
         }
@@ -127,10 +89,10 @@ function WorkSurface(props) {
         const coordinates = calculatePegCoordinates(nativeEvent);
         props.setMouseCoordinates(coordinates);
 
-        if (leftMousePressed) {
+        if (leftMousePressed.current) {
             project.placeBead(coordinates.boardIndex, coordinates.boardX, coordinates.boardY, props.selectedBead);
             forceUpdate();
-        } else if (rightMousePressed) {
+        } else if (rightMousePressed.current) {
             project.placeBead(coordinates.boardIndex, coordinates.boardX, coordinates.boardY, null);
             forceUpdate();
         }
@@ -138,29 +100,32 @@ function WorkSurface(props) {
 
     const onMouseDown = (event) => {
         if (event.button === 0) {
-            setLeftMousePressed(true);
+            leftMousePressed.current = true;
+            const nativeEvent = event.nativeEvent;
+            const coordinates = calculatePegCoordinates(nativeEvent);
+            project.placeBead(coordinates.boardIndex, coordinates.boardX, coordinates.boardY, props.selectedBead);
+            forceUpdate();
         } else if (event.button === 2) {
-            setRightMousePressed(true);
+            rightMousePressed.current = true;
+            const nativeEvent = event.nativeEvent;
+            const coordinates = calculatePegCoordinates(nativeEvent);
+            project.placeBead(coordinates.boardIndex, coordinates.boardX, coordinates.boardY, null);
+            forceUpdate();
         } else {
             return;
         }
-
-        const nativeEvent = event.nativeEvent;
-        const coordinates = calculatePegCoordinates(nativeEvent);
-        project.placeBead(coordinates.boardIndex, coordinates.boardX, coordinates.boardY, props.selectedBead);
-        forceUpdate();
     };
 
     const onMouseUp = (event) => {
         if (event.button === 0) {
-            setLeftMousePressed(false);
+            leftMousePressed.current = false;
         } else if (event.button === 2) {
-            setRightMousePressed(false);
+            rightMousePressed.current =false;
         }
-    }
+    };
 
     return (
-        <div className={props.className}>
+        <div className={props.className} style={{position: 'absolute', top: 0, left: 0}}>
             <canvas
                 ref={canvasRef}
                 width={requiredWidth}
@@ -173,9 +138,9 @@ function WorkSurface(props) {
 
         </div>
     );
-}
+};
 
-WorkSurface.propTypes = {
+BeadCanvas.propTypes = {
     className: PropTypes.string,
     project: PropTypes.instanceOf(Project).isRequired,
     setMouseCoordinates: PropTypes.func.isRequired,
@@ -190,4 +155,4 @@ const mapDispatchToProps = (dispatch) => ({
     setMouseCoordinates: (coordinates) => dispatch(setMouseCoordinates(coordinates))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(WorkSurface);
+export default connect(mapStateToProps, mapDispatchToProps)(BeadCanvas);
