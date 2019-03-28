@@ -31,9 +31,10 @@ function ColorPicker(props) {
 }
 
 ColorPicker.propTypes = {
+    className: PropTypes.string,
     color: PropTypes.string,
-    text: PropTypes.string,
-    onChange: PropTypes.func
+    onChange: PropTypes.func,
+    text: PropTypes.string
 };
 
 export default ColorPicker;
