@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Button, Navbar, NavbarGroup, NavbarHeading } from '@blueprintjs/core';
-import Settings from './settings/SettingsDialog';
+import SettingsDialog from './settings/SettingsDialog';
 
 function Header(props) {
 
@@ -12,7 +12,7 @@ function Header(props) {
             <NavbarGroup>
                 <NavbarHeading>{ props.appName }</NavbarHeading>
                 <Button onClick={() => toggleDialog(isOpen => !isOpen)}>Settings</Button>
-                <Settings isOpen={isDialogOpen} closeDialog={() => toggleDialog(!isDialogOpen)} />
+                <SettingsDialog isOpen={isDialogOpen} closeDialog={() => toggleDialog(!isDialogOpen)} />
             </NavbarGroup>
         </Navbar>
     );
