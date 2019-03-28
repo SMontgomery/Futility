@@ -1,12 +1,18 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Navbar, NavbarGroup, NavbarHeading } from '@blueprintjs/core';
+import { Button, Navbar, NavbarGroup, NavbarHeading } from '@blueprintjs/core';
+import Settings from './settings/SettingsDialog';
 
 function Header(props) {
+
+    const [isDialogOpen, toggleDialog] = React.useState(false);
+
     return (
         <Navbar className={props.className}>
             <NavbarGroup>
                 <NavbarHeading>{ props.appName }</NavbarHeading>
+                <Button onClick={() => toggleDialog(isOpen => !isOpen)}>Settings</Button>
+                <Settings isOpen={isDialogOpen} closeDialog={() => toggleDialog(!isDialogOpen)} />
             </NavbarGroup>
         </Navbar>
     );

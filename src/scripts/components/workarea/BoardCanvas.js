@@ -1,89 +1,119 @@
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import React, { useEffect, useRef } from 'react';
-
 import { drawCircle, drawLine } from '../../utils/draw';
-import Project from '../../project/project';
+import backgroundTypes from '../../state/backgroundTypes';
 
 const PEG_RADIUS = 1.5;
 
 function BoardCanvas(props) {
-
-    const { project } = props;
+    const backgroundSettings = props.backgroundSettings;
+    const pegGridSettings = props.pegGridSettings;
+    const lineGridSettings = props.lineGridSettings;
+    const boardGridSettings = props.boardGridSettings;
+    const customGridSettings = props.customGridSettings;
     const canvasRef = useRef();
     const beadSize = 20;
-    const backgroundColor = 'white';
-    const pegColor = 'gray';
-    const lineGridColor = 'gray';
-    const boardGridColor = 'blue';
 
-    const requiredWidth = beadSize * project.getPegsAcross();
-    const requiredWeight = beadSize * project.getPegsDown();
-
+    const requiredWidth = beadSize * props.boardWidth * props.boardsAcross;
+    const requiredHeight = beadSize * props.boardHeight * props.boardsDown;
 
     useEffect(() => {
         const canvas = canvasRef.current;
         const context = canvas.getContext('2d');
 
         // Draw background
-        context.fillStyle = backgroundColor;
-        context.fillRect(0, 0, canvas.width, canvas.height);
+        if (backgroundSettings.backgroundType === backgroundTypes.CHECKERBOARD) {
+            context.fillStyle = backgroundSettings.primaryColor;
+            context.fillRect(0, 0, canvas.width, canvas.height);
+
+            const halfBeadSize = beadSize / 2;
+            context.fillStyle = backgroundSettings.secondaryColor;
+            for(let x = 0; x < canvas.width; x += beadSize) {
+                for(let y = 0; y < canvas.height; y += beadSize) {
+                    context.fillRect(x, y, halfBeadSize, halfBeadSize);
+                    context.fillRect(x + halfBeadSize, y + halfBeadSize, halfBeadSize, halfBeadSize);
+                }
+            }
+        } else {
+            context.fillStyle = backgroundSettings.primaryColor;
+            context.fillRect(0, 0, canvas.width, canvas.height);
+        }
 
         // Draw pegs
-        context.fillStyle = pegColor;
-        for (let x = beadSize / 2; x < canvas.width; x += beadSize) {
-            for (let y = beadSize / 2; y < canvas.height; y += beadSize) {
-                drawCircle(context, x, y, PEG_RADIUS);
+        if (pegGridSettings.enabled) {
+            context.fillStyle = pegGridSettings.color;
+            for (let x = beadSize / 2; x < canvas.width; x += beadSize) {
+                for (let y = beadSize / 2; y < canvas.height; y += beadSize) {
+                    drawCircle(context, x, y, PEG_RADIUS);
+                }
             }
         }
 
         // Draw line grid
-        context.strokeStyle = lineGridColor;
-        // Y lines
-        for (let x = 0; x <= canvas.width; x += beadSize) {
-            drawLine(context, x, .5, x, canvas.height);
+        if (lineGridSettings.enabled) {
+            context.strokeStyle = lineGridSettings.color;
+            // Y lines
+            for (let x = 0; x <= canvas.width; x += beadSize) {
+                drawLine(context, x, .5, x, canvas.height);
+            }
+
+            // X lines
+            for (let y = 0; y <= canvas.height; y += beadSize) {
+                drawLine(context, .5, y, canvas.width, y);
+            }
         }
 
-        // X lines
-        for (let y = 0; y <= canvas.height; y += beadSize) {
-            drawLine(context, .5, y, canvas.width, y);
+        // Draw custom grid
+        if (customGridSettings.enabled) {
+            context.strokeStyle = customGridSettings.color;
+            // Y lines
+            for (let x = 0; x <= canvas.width; x += beadSize * customGridSettings.size) {
+                drawLine(context, x, .5, x, canvas.height);
+            }
+
+            // X lines
+            for (let y = 0; y <= canvas.height; y += beadSize * customGridSettings.size) {
+                drawLine(context, .5, y, canvas.width, y);
+            }
         }
 
         // Draw board grid
-        context.strokeStyle = boardGridColor;
-        // Y lines
-        for (let x = 0; x <= canvas.width; x += beadSize * project.getBoardHeight()) {
-            drawLine(context, x, .5, x, canvas.height);
-        }
+        if (boardGridSettings.enabled) {
+            context.strokeStyle = boardGridSettings.color;
+            // Y lines
+            for (let x = 0; x <= canvas.width; x += beadSize * props.boardHeight) {
+                drawLine(context, x, .5, x, canvas.height);
+            }
 
-        // X lines
-        for (let y = 0; y <= canvas.height; y += beadSize * project.getBoardWidth()) {
-            drawLine(context, .5, y, canvas.width, y);
+            // X lines
+            for (let y = 0; y <= canvas.height; y += beadSize * props.boardWidth) {
+                drawLine(context, .5, y, canvas.width, y);
+            }
         }
     });
-
 
     return (
         <div className={props.className} style={{position: 'absolute', top: 0, left: 0}}>
             <canvas
                 ref={canvasRef}
                 width={requiredWidth}
-                height={requiredWeight}
+                height={requiredHeight}
             />
-
         </div>
     );
 }
 
 BoardCanvas.propTypes = {
+    backgroundSettings: PropTypes.object.isRequired,
+    boardGridSettings: PropTypes.object.isRequired,
+    boardHeight: PropTypes.number.isRequired,
+    boardWidth: PropTypes.number.isRequired,
+    boardsAcross: PropTypes.number.isRequired,
+    boardsDown: PropTypes.number.isRequired,
     className: PropTypes.string,
-    project: PropTypes.instanceOf(Project).isRequired
+    customGridSettings: PropTypes.object.isRequired,
+    lineGridSettings: PropTypes.object.isRequired,
+    pegGridSettings: PropTypes.object.isRequired
 };
 
-const mapStateToProps = (state) => ({
-});
-
-const mapDispatchToProps = (dispatch) => ({
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(BoardCanvas);
+export default (BoardCanvas);
