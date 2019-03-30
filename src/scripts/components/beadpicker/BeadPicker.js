@@ -5,7 +5,7 @@ import BeadPalette from './BeadPalette';
 import BrandPicker from './BrandPicker';
 import SelectedBead from './SelectedBead';
 import BeadManager from '../../project/beadManager';
-import { setSelectedBead, setSelectedBrand } from '../../state/actions/projectActions';
+import { setSelectedBead, setSelectedBrand } from '../../state/actions/uiActions';
 
 function BeadPicker(props) {
 
@@ -35,8 +35,8 @@ BeadPicker.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-    selectedBead: state.project.selectedBead,
-    selectedBrand: state.project.selectedBrand
+    selectedBead: state.ui.selectedBead,
+    selectedBrand: state.ui.selectedBrand
 });
 
 const mapDispatchToProps = (dispatch) => ({

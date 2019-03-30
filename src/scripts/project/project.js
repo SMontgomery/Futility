@@ -1,5 +1,5 @@
 import logger from '../utils/logger';
-import { isEqual, get, set } from 'lodash';
+import { isEqual, get, cloneDeep, setWith } from 'lodash';
 
 export default class Project {
     /**
@@ -364,7 +364,7 @@ export default class Project {
             }
 
             // Place bead
-            set(this._project.boards[board], `[${x}][${y}]`, beadIndex);
+            setWith(this._project.boards[board], [x,y], beadIndex, (v) => v ? v : {});
             logger.debug(`Placed new bead and incremented count.`, this.constructor.name);
         } else {
             // Remove bead
@@ -395,28 +395,6 @@ export default class Project {
         return this._project.beads.map(bead => bead.bead);
     }
 
-    /**
-     * Get a list of all beads and their position.
-     *
-     * @returns {Array} array of objects that contain the bead and it's board, x, y coordinates.
-     */
-    getAllBeads() {
-        let beadList = [];
-        for(let boardIndex = 0; boardIndex < this.getBoardCount(); boardIndex++) {
-            Object.keys(this._project.boards[boardIndex]).forEach((x) => {
-                Object.keys(this._project.boards[boardIndex][x]).forEach((y) => {
-                    beadList.push({
-                        boardIndex,
-                        boardX: parseInt(x),
-                        boardY: parseInt(y),
-                        bead: this._project.beads[this._project.boards[boardIndex][x][y]].bead
-                    });
-                });
-            });
-        }
-
-        return beadList;
-    }
 
     /**
      * Helper method to get the index of a given bead.
@@ -447,4 +425,14 @@ export default class Project {
 
         return (typeof maximum === 'number') ? number <= maximum : true;
     }
+
+    /**
+     * Get a clone of the project object.
+     *
+     * @returns {*} clone of the project object.
+     */
+    getProject() {
+        return cloneDeep(this._project);
+    }
+
 }

@@ -18,7 +18,7 @@ StatusBar.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-    mouseCoordinates: state.project.mouseCoordinates
+    mouseCoordinates: state.ui.mouseCoordinates
 });
 
 export default connect(mapStateToProps)(StatusBar);

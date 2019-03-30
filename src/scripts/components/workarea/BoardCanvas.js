@@ -6,16 +6,13 @@ import backgroundTypes from '../../state/backgroundTypes';
 const PEG_RADIUS = 1.5;
 
 function BoardCanvas(props) {
-    const backgroundSettings = props.backgroundSettings;
-    const pegGridSettings = props.pegGridSettings;
-    const lineGridSettings = props.lineGridSettings;
-    const boardGridSettings = props.boardGridSettings;
-    const customGridSettings = props.customGridSettings;
-    const canvasRef = useRef();
-    const beadSize = 20;
+    const { backgroundSettings, pegGridSettings, lineGridSettings, boardGridSettings, customGridSettings } = props;
+    const { boardWidth, boardHeight, boardsAcross, boardsDown, beadSize } = props;
+    const requiredWidth = beadSize * boardWidth * boardsAcross;
+    const requiredHeight = beadSize * boardHeight * boardsDown;
 
-    const requiredWidth = beadSize * props.boardWidth * props.boardsAcross;
-    const requiredHeight = beadSize * props.boardHeight * props.boardsDown;
+    const canvasRef = useRef();
+
 
     useEffect(() => {
         const canvas = canvasRef.current;
@@ -81,19 +78,19 @@ function BoardCanvas(props) {
         if (boardGridSettings.enabled) {
             context.strokeStyle = boardGridSettings.color;
             // Y lines
-            for (let x = 0; x <= canvas.width; x += beadSize * props.boardHeight) {
+            for (let x = 0; x <= canvas.width; x += beadSize * boardHeight) {
                 drawLine(context, x, .5, x, canvas.height);
             }
 
             // X lines
-            for (let y = 0; y <= canvas.height; y += beadSize * props.boardWidth) {
+            for (let y = 0; y <= canvas.height; y += beadSize * boardWidth) {
                 drawLine(context, .5, y, canvas.width, y);
             }
         }
     });
 
     return (
-        <div className={props.className} style={{position: 'absolute', top: 0, left: 0}}>
+        <div style={{position: 'absolute', top: 0, left: 0}}>
             <canvas
                 ref={canvasRef}
                 width={requiredWidth}
@@ -105,12 +102,12 @@ function BoardCanvas(props) {
 
 BoardCanvas.propTypes = {
     backgroundSettings: PropTypes.object.isRequired,
+    beadSize: PropTypes.number.isRequired,
     boardGridSettings: PropTypes.object.isRequired,
     boardHeight: PropTypes.number.isRequired,
     boardWidth: PropTypes.number.isRequired,
     boardsAcross: PropTypes.number.isRequired,
     boardsDown: PropTypes.number.isRequired,
-    className: PropTypes.string,
     customGridSettings: PropTypes.object.isRequired,
     lineGridSettings: PropTypes.object.isRequired,
     pegGridSettings: PropTypes.object.isRequired

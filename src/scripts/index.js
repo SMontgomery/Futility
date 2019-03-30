@@ -6,7 +6,7 @@ import configureStore from './state/configureStore';
 import Application from './components/Application';
 import BeadManager from './project/beadManager';
 import brands from './project/brands';
-import { setSelectedBead, setSelectedBrand } from './state/actions/projectActions';
+import { setSelectedBead, setSelectedBrand } from './state/actions/uiActions';
 
 import 'normalize.css/normalize.css';
 import '@blueprintjs/core/lib/css/blueprint.css';

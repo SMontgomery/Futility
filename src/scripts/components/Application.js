@@ -1,36 +1,58 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Project from '../project/project';
+import { connect } from 'react-redux';
 import Header from './Header';
 import LeftSideBar from './LeftSideBar';
 import StatusBar from './StatusBar';
 import BeadManager from '../project/beadManager';
 import RightSideBar from './RightSideBar';
 import WorkArea from './workarea/WorkArea';
-
-const project = new Project(10, 10, 2, 2);
+import { createProject } from '../state/actions/projectActions';
+import { isEmpty } from 'lodash';
 
 function Application(props) {
 
     return (
-        <div className="page">
-            <Header className='header' appName={props.appName} />
+        <React.Fragment>
+            {isEmpty(props.project) ?
+                (
+                    <div>
+                        {props.createProject(10, 10, 2, 2) && ''}
+                    </div>
+                ) : (
+                    <div className="page">
+                        <Header className='header' appName={props.appName} />
 
-            <LeftSideBar className='left-sidebar' beadManager={props.beadManager} />
+                        <LeftSideBar className='left-sidebar' beadManager={props.beadManager} />
 
-            <WorkArea className='main' project={project} />
+                        <WorkArea className='main' project={props.project} />
 
-            <RightSideBar className='right-sidebar' />
+                        <RightSideBar className='right-sidebar' />
 
-            <StatusBar className='footer' />
-        </div>
+                        <StatusBar className='footer' />
+                    </div>
+                )
+            }
+        </React.Fragment>
     );
 }
 
 Application.propTypes = {
     appName: PropTypes.string.isRequired,
-    beadManager: PropTypes.instanceOf(BeadManager).isRequired
+    beadManager: PropTypes.instanceOf(BeadManager).isRequired,
+    createProject: PropTypes.func.isRequired,
+    project: PropTypes.object.isRequired
 };
 
-export default Application;
+
+const mapStateToProps = (state) => ({
+    project: state.project
+});
+
+const mapDispatchToProps = (dispatch) => ({
+    createProject: (boardWidth, boardHeight, boardsAcross, boardsDown) =>
+        dispatch(createProject(boardWidth, boardHeight, boardsAcross, boardsDown))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Application);
 
