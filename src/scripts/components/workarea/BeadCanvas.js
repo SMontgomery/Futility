@@ -3,13 +3,10 @@ import React, { useEffect, useRef } from 'react';
 import { drawCircle } from '../../utils/draw';
 import { getAllBeads } from '../../project/projectUtils';
 
-const PEG_RADIUS = 1.5;
-
 const BeadCanvas = (props) => {
 
-    const { boardWidth, boardHeight, boardsAcross, boardsDown, boards, beads, beadSize } = props;
-    const requiredWidth = beadSize * boardWidth * boardsAcross;
-    const requiredWeight = beadSize * boardHeight * boardsDown;
+    const { boardWidth, boardHeight, boardsAcross, boards, beads, beadSize } = props;
+    const { requiredWidth, requiredHeight } = props;
 
     const leftMousePressed = useRef(false);
     const rightMousePressed = useRef(false);
@@ -26,11 +23,9 @@ const BeadCanvas = (props) => {
         // Draw beads
 
         getAllBeads(boards,beads).forEach(beadInfo => {
-
-            // project.getAllBeads().forEach(beadInfo => {
             const { x, y } = calculateCanvasCoordiantes(beadInfo.boardIndex, beadInfo.boardX, beadInfo.boardY);
             context.fillStyle = beadInfo.bead.color;
-            drawCircle(context, x, y, PEG_RADIUS + 5);
+            drawCircle(context, x, y, beadSize / 2);
         });
     });
 
@@ -134,7 +129,7 @@ const BeadCanvas = (props) => {
             <canvas
                 ref={canvasRef}
                 width={requiredWidth}
-                height={requiredWeight}
+                height={requiredHeight}
                 onMouseMove={onMouseMove}
                 onMouseDown={onMouseDown}
                 onMouseUp={onMouseUp}
@@ -146,8 +141,8 @@ const BeadCanvas = (props) => {
 };
 
 BeadCanvas.propTypes = {
-    beads: PropTypes.array.isRequired,
     beadSize: PropTypes.number.isRequired,
+    beads: PropTypes.array.isRequired,
     boardHeight: PropTypes.number.isRequired,
     boardWidth: PropTypes.number.isRequired,
     boards: PropTypes.array.isRequired,
@@ -155,6 +150,8 @@ BeadCanvas.propTypes = {
     boardsDown: PropTypes.number.isRequired,
     placeBead: PropTypes.func,
     removeBead: PropTypes.func,
+    requiredHeight: PropTypes.number.isRequired,
+    requiredWidth: PropTypes.number.isRequired,
     selectedBead: PropTypes.object,
     setMouseCoordinates: PropTypes.func
 };

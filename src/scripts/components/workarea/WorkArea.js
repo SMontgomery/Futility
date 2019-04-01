@@ -5,15 +5,32 @@ import BoardCanvas from './BoardCanvas';
 import BeadCanvas from './BeadCanvas';
 import { setMouseCoordinates } from '../../state/actions/uiActions';
 import { placeBead, removeBead } from '../../state/actions/projectActions';
+import styled from 'styled-components';
+
+const CanvasWrapper = styled.div`
+    position: relative;
+    width: ${props => props.cssWidth};
+    height: ${props => props.cssHeight};
+    max-width: ${props => props.maxWidth};
+    max-height: ${props => props.maxHeight};
+    overflow: hidden;
+`;
+
 
 export function WorkArea(props) {
 
-    const beadSize = 20;
+    const requiredWidth = props.beadSize * props.boardWidth * props.boardsAcross;
+    const requiredHeight = props.beadSize * props.boardHeight * props.boardsDown;
 
     return (
-        <div style={{position: 'relative'}}>
+        <CanvasWrapper
+            cssWidth={`${requiredWidth}px`}
+            cssHeight={`${requiredHeight}px`}
+            maxWidth={props.maxWidth ? props.maxWidth : `${requiredWidth}px`}
+            maxHeight={props.maxHeight ? props.maxHeight : `${requiredHeight}px`}
+        >
             <BoardCanvas
-                beadSize={beadSize}
+                beadSize={props.beadSize}
                 backgroundSettings={props.backgroundSettings}
                 pegGridSettings={props.pegGridSettings}
                 lineGridSettings={props.lineGridSettings}
@@ -23,9 +40,11 @@ export function WorkArea(props) {
                 boardHeight={props.boardHeight}
                 boardsAcross={props.boardsAcross}
                 boardsDown={props.boardsDown}
+                requiredWidth={requiredWidth}
+                requiredHeight={requiredHeight}
             />
             <BeadCanvas
-                beadSize={beadSize}
+                beadSize={props.beadSize}
                 beads={props.beads}
                 boardHeight={props.boardHeight}
                 boardWidth={props.boardWidth}
@@ -36,13 +55,16 @@ export function WorkArea(props) {
                 removeBead={props.removeBead}
                 selectedBead={props.selectedBead}
                 setMouseCoordinates={props.setMouseCoordinates}
+                requiredWidth={requiredWidth}
+                requiredHeight={requiredHeight}
             />
-        </div>
+        </CanvasWrapper>
     );
 }
 
 WorkArea.propTypes = {
     backgroundSettings: PropTypes.object.isRequired,
+    beadSize: PropTypes.number.isRequired,
     beads: PropTypes.array.isRequired,
     boardGridSettings: PropTypes.object.isRequired,
     boardHeight: PropTypes.number.isRequired,
@@ -52,6 +74,8 @@ WorkArea.propTypes = {
     boardsDown: PropTypes.number.isRequired,
     customGridSettings: PropTypes.object.isRequired,
     lineGridSettings: PropTypes.object.isRequired,
+    maxHeight: PropTypes.string,
+    maxWidth: PropTypes.string,
     pegGridSettings: PropTypes.object.isRequired,
     placeBead: PropTypes.func,
     removeBead: PropTypes.func,
@@ -83,3 +107,6 @@ const mapDispatchToProps = (dispatch) => ({
 
 export default connect(mapStateToProps, mapDispatchToProps)(WorkArea);
 
+WorkArea.defaultProps = {
+    beadSize: 20
+};

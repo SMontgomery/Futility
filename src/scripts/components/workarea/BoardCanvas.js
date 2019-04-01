@@ -7,9 +7,8 @@ const PEG_RADIUS = 1.5;
 
 function BoardCanvas(props) {
     const { backgroundSettings, pegGridSettings, lineGridSettings, boardGridSettings, customGridSettings } = props;
-    const { boardWidth, boardHeight, boardsAcross, boardsDown, beadSize } = props;
-    const requiredWidth = beadSize * boardWidth * boardsAcross;
-    const requiredHeight = beadSize * boardHeight * boardsDown;
+    const { boardWidth, boardHeight, beadSize } = props;
+    const { requiredWidth, requiredHeight } = props;
 
     const canvasRef = useRef();
 
@@ -110,7 +109,9 @@ BoardCanvas.propTypes = {
     boardsDown: PropTypes.number.isRequired,
     customGridSettings: PropTypes.object.isRequired,
     lineGridSettings: PropTypes.object.isRequired,
-    pegGridSettings: PropTypes.object.isRequired
+    pegGridSettings: PropTypes.object.isRequired,
+    requiredHeight: PropTypes.number.isRequired,
+    requiredWidth: PropTypes.number.isRequired
 };
 
 export default (BoardCanvas);
