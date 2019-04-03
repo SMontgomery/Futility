@@ -10,6 +10,8 @@ function SettingsDialog(props) {
             isOpen={props.isOpen}
             title='Settings'
             onClose={props.closeDialog}
+            canOutsideClickClose={false}
+            style={{width: 830, minWidth: 830}}
         >
             <Settings closeDialog={props.closeDialog} />
         </Dialog>

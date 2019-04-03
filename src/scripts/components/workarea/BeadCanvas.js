@@ -1,7 +1,8 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useRef } from 'react';
-import { drawCircle } from '../../utils/draw';
+import { fillCircle, fillSquare, strokeCircle } from '../../utils/draw';
 import { getAllBeads } from '../../project/projectUtils';
+import beadShapes from '../../state/beadShapes';
 
 const BeadCanvas = (props) => {
 
@@ -21,15 +22,24 @@ const BeadCanvas = (props) => {
         context.clearRect(0, 0, canvas.width, canvas.height);
 
         // Draw beads
-
         getAllBeads(boards,beads).forEach(beadInfo => {
-            const { x, y } = calculateCanvasCoordiantes(beadInfo.boardIndex, beadInfo.boardX, beadInfo.boardY);
-            context.fillStyle = beadInfo.bead.color;
-            drawCircle(context, x, y, beadSize / 2);
+            const { x, y } = calculateCanvasCoordinates(beadInfo.boardIndex, beadInfo.boardX, beadInfo.boardY);
+            switch(props.beadSettings.beadShape) {
+                case beadShapes.ROUND:
+                    fillCircle(context, x, y, beadSize / 2, beadInfo.bead.color);
+                    break;
+                case beadShapes.SQUARE:
+                    fillSquare(context, x - (beadSize / 2), y - (beadSize / 2), beadSize, beadSize, beadInfo.bead.color);
+                    break;
+                case beadShapes.NORMAL:
+                default:
+                    strokeCircle(context, x, y, beadSize / 2, beadSize / 3, beadInfo.bead.color);
+                    break;
+            }
         });
     });
 
-    const calculateCanvasCoordiantes = (board, x, y) => {
+    const calculateCanvasCoordinates = (board, x, y) => {
         // Determine the board x/y coordinates
         const boardX = board % boardsAcross;
         const boardY = Math.trunc(board / boardsAcross);
@@ -141,8 +151,9 @@ const BeadCanvas = (props) => {
 };
 
 BeadCanvas.propTypes = {
-    beadSize: PropTypes.number.isRequired,
     beads: PropTypes.array.isRequired,
+    beadSettings: PropTypes.object.isRequired,
+    beadSize: PropTypes.number.isRequired,
     boardHeight: PropTypes.number.isRequired,
     boardWidth: PropTypes.number.isRequired,
     boards: PropTypes.array.isRequired,

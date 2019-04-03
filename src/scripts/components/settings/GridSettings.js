@@ -1,31 +1,34 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
 import { Checkbox, Label } from '@blueprintjs/core';
 import ColorPicker from './ColorPicker';
+import { Flex, Box } from '@rebass/grid';
 
 const GridSettings = (props) => (
-    <div className={props.className}>
-        <Label>{props.label}</Label>
+    <Flex alignItems='baseline'>
+        <Box width={.3}>
+            <Label>{props.label}</Label>
+        </Box>
 
-        <Checkbox
-            css={`margin-left: auto;`}
-            checked={props.enabled}
-            label="Enabled"
-            onChange={props.onEnabledChange}
-        />
+        <Box width={.3}>
+            <Checkbox
+                checked={props.enabled}
+                label="Enabled"
+                onChange={props.onEnabledChange}
+            />
+        </Box>
 
-        <ColorPicker
-            css={`margin-left: 5rem;`}
-            text='Grid Color'
-            color={props.color}
-            onChange={props.onColorChange}
-        />
-    </div>
+        <Box width={.4}>
+            <ColorPicker
+                text='Grid Color'
+                color={props.color}
+                onChange={props.onColorChange}
+            />
+        </Box>
+    </Flex>
 );
 
 GridSettings.propTypes = {
-    className: PropTypes.string,
     color: PropTypes.string.isRequired,
     enabled: PropTypes.bool.isRequired,
     label: PropTypes.string.isRequired,
@@ -33,11 +36,4 @@ GridSettings.propTypes = {
     onEnabledChange: PropTypes.func.isRequired
 };
 
-const StyledGridSettings = styled(GridSettings)`
-    display: flex;
-    align-items: baseline;
-    justify-content: flex-end;
-    margin-top: .75rem;
-`;
-
-export default StyledGridSettings;
+export default GridSettings;

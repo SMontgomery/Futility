@@ -15,7 +15,6 @@ import {
 const projectReducerDefaultState = {};
 
 function projectReducer(state = projectReducerDefaultState, action) {
-    console.log(action.type, action);
     switch (action.type) {
         case CREATE_PROJECT:
         case ADD_BOARD_COLUMN_TO_LEFT:

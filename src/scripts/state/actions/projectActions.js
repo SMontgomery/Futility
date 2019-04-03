@@ -107,7 +107,6 @@ export const removeBoardRowFromBottom = () => {
 };
 
 export const placeBead = (board, x, y, bead) => {
-    console.log('pb');
     project.placeBead(board, x, y, bead);
 
     return {

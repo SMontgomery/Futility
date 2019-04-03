@@ -44,8 +44,9 @@ export function WorkArea(props) {
                 requiredHeight={requiredHeight}
             />
             <BeadCanvas
-                beadSize={props.beadSize}
                 beads={props.beads}
+                beadSettings={props.beadSettings}
+                beadSize={props.beadSize}
                 boardHeight={props.boardHeight}
                 boardWidth={props.boardWidth}
                 boards={props.boards}
@@ -66,6 +67,7 @@ WorkArea.propTypes = {
     backgroundSettings: PropTypes.object.isRequired,
     beadSize: PropTypes.number.isRequired,
     beads: PropTypes.array.isRequired,
+    beadSettings: PropTypes.object.isRequired,
     boardGridSettings: PropTypes.object.isRequired,
     boardHeight: PropTypes.number.isRequired,
     boardWidth: PropTypes.number.isRequired,
@@ -86,6 +88,7 @@ WorkArea.propTypes = {
 const mapStateToProps = (state) => ({
     backgroundSettings: state.settings.background,
     beads: state.project.beads,
+    beadSettings: state.settings.bead,
     boardGridSettings: state.settings.boardGrid,
     boardHeight: state.project.boardHeight,
     boardWidth: state.project.boardWidth,

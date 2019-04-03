@@ -19,9 +19,12 @@ function ColorPicker(props) {
     return (
         <Popover
             content={picker}
+            targetTagName='div'
+            position='right'
         >
             <Button
-                className={props.className}
+                fill={props.buttonFill}
+                alignText='left'
                 icon={icon}
                 rightIcon='caret-down'
                 text={props.text || selectedColor}
@@ -31,10 +34,10 @@ function ColorPicker(props) {
 }
 
 ColorPicker.propTypes = {
-    className: PropTypes.string,
     color: PropTypes.string,
     onChange: PropTypes.func,
-    text: PropTypes.string
+    text: PropTypes.string,
+    buttonFill: PropTypes.bool
 };
 
 export default ColorPicker;

@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useRef } from 'react';
-import { drawCircle, drawLine } from '../../utils/draw';
+import { fillCircle, drawLine } from '../../utils/draw';
 import backgroundTypes from '../../state/backgroundTypes';
 
 const PEG_RADIUS = 1.5;
@@ -37,10 +37,9 @@ function BoardCanvas(props) {
 
         // Draw pegs
         if (pegGridSettings.enabled) {
-            context.fillStyle = pegGridSettings.color;
             for (let x = beadSize / 2; x < canvas.width; x += beadSize) {
                 for (let y = beadSize / 2; y < canvas.height; y += beadSize) {
-                    drawCircle(context, x, y, PEG_RADIUS);
+                    fillCircle(context, x, y, PEG_RADIUS, pegGridSettings.color);
                 }
             }
         }

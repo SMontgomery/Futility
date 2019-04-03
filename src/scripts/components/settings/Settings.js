@@ -1,11 +1,14 @@
 import PropTypes from 'prop-types';
 import React, {useState} from 'react';
 import { connect } from 'react-redux';
-import styled from 'styled-components';
-import { Button, Classes, Card, Divider, H6, Label, Radio, RadioGroup, Slider } from '@blueprintjs/core';
+import { Button, Classes, Divider, Label, Radio, Slider } from '@blueprintjs/core';
+import { Flex, Box } from '@rebass/grid';
 import backgroundTypes from '../../state/backgroundTypes';
 import beadShapes from '../../state/beadShapes';
 import ColorPicker from './ColorPicker';
+import GridSettings from './GridSettings';
+import { WorkArea } from '../workarea/WorkArea';
+import Section from './Section';
 import {
     restoreDefaultSettings,
     setBackgroundPrimaryColor,
@@ -19,9 +22,8 @@ import {
     setPegGridColor,
     setPegGridEnabled
 } from '../../state/actions/settingsActions';
-import GridSettings from './GridSettings';
 
-function SettingsDialog(props) {
+function Settings(props) {
     const [backgroundType, setBackgroundType] = useState(props.backgroundType);
     const [backgroundPrimaryColor, setBackgroundPrimaryColor] = useState(props.backgroundPrimaryColor);
     const [backgroundSecondaryColor, setBackgroundSecondaryColor] = useState(props.backgroundSecondaryColor);
@@ -37,95 +39,115 @@ function SettingsDialog(props) {
     const [customGridSize, setCustomGridSize] = useState(props.customGridSize);
 
     const renderBackgroundSettings = () => (
-        <StyledCard>
-            <H6>Background Type</H6>
+        <Section title='Background Type'>
+            <Flex flexWrap='wrap' alignItems='baseline'>
+                <Box width={.45} order={1}>
+                    <Radio
+                        label='Plain'
+                        checked={backgroundType === backgroundTypes.PLAIN}
+                        onChange={() => setBackgroundType(backgroundTypes.PLAIN)}
+                    />
+                </Box>
 
-            <CardBody>
-                <RadioGroup
-                    css={`display: flex; justify-content: space-evenly;`}
-                    inline='true'
-                    onChange={(event) => setBackgroundType(event.target.value)}
-                    selectedValue={backgroundType}
-                >
-                    <Radio label='Plain' value={backgroundTypes.PLAIN} />
-                    <Radio label='Checkerboard' value={backgroundTypes.CHECKERBOARD} />
-                </RadioGroup>
+                <Box width={.45} order={3}>
+                    <Radio
+                        label='Checkerboard'
+                        checked={backgroundType === backgroundTypes.CHECKERBOARD}
+                        onChange={() =>setBackgroundType(backgroundTypes.CHECKERBOARD)}
+                    />
+                </Box>
 
-                <div css={`display: flex; justify-content: space-evenly;`}>
+                <Box width={.55} order={2} css={`text-align: right`}>
                     <ColorPicker
                         text='Primary Color'
                         color={backgroundPrimaryColor}
                         onChange={(color) => setBackgroundPrimaryColor(color)}
+                        buttonFill
                     />
+                </Box>
+
+                <Box width={.55} order={4} css={`text-align: right`}>
                     <ColorPicker
                         text='Secondary Color'
                         color={backgroundSecondaryColor}
                         onChange={(color) => setBackgroundSecondaryColor(color)}
+                        buttonFill
                     />
-                </div>
-            </CardBody>
-        </StyledCard>
+                </Box>
+            </Flex>
+        </Section>
     );
 
     const renderBeadSettings = () => (
-        <StyledCard>
-            <H6>Bead Shape</H6>
+        <Section title='Bead Shape'>
+            <Flex justifyContent='space-between'>
+                <Box>
+                    <Radio
+                        label='Normal'
+                        checked={beadShape === beadShapes.NORMAL}
+                        onChange={() =>setBeadShape(beadShapes.NORMAL)}
+                    />
+                </Box>
 
-            <CardBody>
-                <RadioGroup
-                    css={`display: flex; justify-content: space-evenly;`}
-                    inline='true'
-                    onChange={(event) => setBeadShape(event.target.value)}
-                    selectedValue={beadShape}
-                >
-                    <Radio label='Normal' value={beadShapes.NORMAL} />
-                    <Radio label='Round' value={beadShapes.ROUND} />
-                    <Radio label='Square' value={beadShapes.SQUARE} />
-                </RadioGroup>
-            </CardBody>
-        </StyledCard>
+                <Box>
+                    <Radio
+                        label='Round'
+                        checked={beadShape === beadShapes.ROUND}
+                        onChange={() =>setBeadShape(beadShapes.ROUND)}
+                    />
+                </Box>
+
+                <Box>
+                    <Radio
+                        label='Square'
+                        checked={beadShape === beadShapes.SQUARE}
+                        onChange={() =>setBeadShape(beadShapes.SQUARE)}
+                    />
+                </Box>
+            </Flex>
+        </Section>
     );
 
     const renderGridSettings = () => (
-        <StyledCard>
-            <H6>Guides</H6>
-            <CardBody>
-                <GridSettings
-                    label='Peg Grid'
-                    enabled={pegGridEnabled}
-                    onEnabledChange={(event) => setPegGridEnabled(event.target.checked)}
-                    color={pegGridColor}
-                    onColorChange={(color) => setPegGridColor(color)}
-                />
-                <Divider />
-                <GridSettings
-                    label='Line Grid'
-                    enabled={lineGridEnabled}
-                    onEnabledChange={(event) => setLineGridEnabled(event.target.checked)}
-                    color={lineGridColor}
-                    onColorChange={(color) => setLineGridColor(color)}
-                />
-                <Divider />
-                <GridSettings
-                    label='Board Grid'
-                    enabled={boardGridEnabled}
-                    onEnabledChange={(event) => setBoardGridEnabled(event.target.checked)}
-                    color={boardGridColor}
-                    onColorChange={(color) => setBoardGridColor(color)}
-                />
-                <Divider />
-                <GridSettings
-                    label='Custom Grid'
-                    enabled={customGridEnabled}
-                    onEnabledChange={(event) => setCustomGridEnabled(event.target.checked)}
-                    color={customGridColor}
-                    onColorChange={(color) => setCustomGridColor(color)}
-                />
+        <Section title='Guides'>
+            <GridSettings
+                label='Peg Grid'
+                enabled={pegGridEnabled}
+                onEnabledChange={(event) => setPegGridEnabled(event.target.checked)}
+                color={pegGridColor}
+                onColorChange={(color) => setPegGridColor(color)}
+            />
+            <Divider />
+            <GridSettings
+                label='Line Grid'
+                enabled={lineGridEnabled}
+                onEnabledChange={(event) => setLineGridEnabled(event.target.checked)}
+                color={lineGridColor}
+                onColorChange={(color) => setLineGridColor(color)}
+            />
+            <Divider />
+            <GridSettings
+                label='Board Grid'
+                enabled={boardGridEnabled}
+                onEnabledChange={(event) => setBoardGridEnabled(event.target.checked)}
+                color={boardGridColor}
+                onColorChange={(color) => setBoardGridColor(color)}
+            />
+            <Divider />
+            <GridSettings
+                label='Custom Grid'
+                enabled={customGridEnabled}
+                onEnabledChange={(event) => setCustomGridEnabled(event.target.checked)}
+                color={customGridColor}
+                onColorChange={(color) => setCustomGridColor(color)}
+            />
 
-                <div css={`display: flex; margin-left: 8.5rem; margin-top: .5rem`}>
-                    <Label css={`flex: 1`}>Grid Size</Label>
+            <Flex justifyContent='flex-end'>
+                <Box pr={4}>
+                    <Label>Grid Size</Label>
+                </Box>
+                <Box pr={2}>
                     <Slider
-                        css={`flex: 3; margin-right: .5rem;`}
                         min={1}
                         max={25}
                         stepSize={1}
@@ -133,10 +155,9 @@ function SettingsDialog(props) {
                         value={customGridSize}
                         labelStepSize={24}
                     />
-                </div>
-
-            </CardBody>
-        </StyledCard>
+                </Box>
+            </Flex>
+        </Section>
     );
 
     const handleSave = () => {
@@ -200,12 +221,53 @@ function SettingsDialog(props) {
         props.closeDialog();
     };
 
+    const beads = [{bead: {brand: 'PERLER', code: 'P18', name: 'Black', type: 'regular', color: '#2e2f32'}, count: 10}];
+    const boards = [{'0': {'0': 0},'1': {'1': 0},'2': {'2': 0},'3': {'3': 0},'4': {'4': 0},'5': {'5': 0},'6': {'6': 0},'7': {'7': 0},'8': {'8': 0},'9': {'9': 0}},{},{},{}];
+
     return (
         <React.Fragment>
             <div className={ Classes.DIALOG_BODY }>
-                { renderBackgroundSettings() }
-                { renderBeadSettings() }
-                { renderGridSettings() }
+
+                <Flex>
+                    <Box width={.52} pr='.5rem'>
+                        <Flex flexDirection='column'>
+                            <Box pb='1rem'>
+                                { renderBackgroundSettings() }
+                            </Box>
+                            <Box pb='1rem'>
+                                { renderBeadSettings() }
+                            </Box>
+                            <Box>
+                                { renderGridSettings() }
+                            </Box>
+                        </Flex>
+                    </Box>
+
+                    <Box width={.48} pl='.5rem'>
+                        <Section title='Preview'>
+                            <WorkArea
+                                backgroundSettings={{backgroundType, primaryColor: backgroundPrimaryColor, secondaryColor: backgroundSecondaryColor}}
+                                beads={beads}
+                                beadSettings={{beadShape: beadShape}}
+                                boardGridSettings={{enabled: boardGridEnabled, color: boardGridColor}}
+                                boardHeight={15}
+                                boardWidth={15}
+                                boards={boards}
+                                boardsAcross={2}
+                                boardsDown={2}
+                                customGridSettings={{enabled: customGridEnabled, color: customGridColor, size: customGridSize}}
+                                lineGridSettings={{enabled: lineGridEnabled, color: lineGridColor}}
+                                pegGridSettings={{enabled: pegGridEnabled, color: pegGridColor}}
+                                beadSize={16}
+                                maxWidth='305px'
+                            />
+
+                            This preview uses a board size of 15 in order to better display the board grid.
+                        </Section>
+
+
+                    </Box>
+                </Flex>
             </div>
 
             <div className={Classes.DIALOG_FOOTER}>
@@ -252,7 +314,7 @@ const mapDispatchToProps = (dispatch) => ({
     restoreDefaultSettings: () => dispatch(restoreDefaultSettings())
 });
 
-SettingsDialog.propTypes = {
+Settings.propTypes = {
     backgroundPrimaryColor: PropTypes.string.isRequired,
     backgroundSecondaryColor: PropTypes.string.isRequired,
     backgroundType: PropTypes.string.isRequired,
@@ -263,7 +325,6 @@ SettingsDialog.propTypes = {
     customGridColor: PropTypes.string.isRequired,
     customGridEnabled: PropTypes.bool.isRequired,
     customGridSize: PropTypes.number.isRequired,
-    isOpen: PropTypes.bool.isRequired,
     lineGridColor: PropTypes.string.isRequired,
     lineGridEnabled: PropTypes.bool.isRequired,
     pegGridColor: PropTypes.string.isRequired,
@@ -284,14 +345,5 @@ SettingsDialog.propTypes = {
     setPegGridEnabled: PropTypes.func.isRequired
 };
 
-const StyledCard = styled(Card)`
-    margin: .5rem 0rem;
-    padding: .5rem;
-`;
-
-const CardBody = styled.div`
-    padding-left: 1rem;
-`;
-
-export default connect(mapStateToProps, mapDispatchToProps)(SettingsDialog);
+export default connect(mapStateToProps, mapDispatchToProps)(Settings);
 
