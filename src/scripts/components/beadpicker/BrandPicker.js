@@ -1,17 +1,20 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { HTMLSelect } from '@blueprintjs/core';
+import Dropdown from 'react-bootstrap/Dropdown';
+import DropdownButton from 'react-bootstrap/DropdownButton';
 import BeadManager from '../../project/beadManager';
 
 function BrandPicker(props) {
 
+    const brands = props.beadManager.getBrands();
+
     return (
         <div>
-            <HTMLSelect
-                value={props.selectedBrand}
-                options={props.beadManager.getBrands()}
-                onChange={(event) => props.setBrand(event.currentTarget.value)}
-            />
+            <DropdownButton size='sm' title={props.selectedBrand}>
+                {brands.map(brand => (
+                    <Dropdown.Item key={brand} onClick={() => props.setBrand(brand)}>{brand}</Dropdown.Item>
+                ))}
+            </DropdownButton>
         </div>
     );
 }

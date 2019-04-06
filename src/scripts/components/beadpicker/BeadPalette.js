@@ -1,24 +1,35 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Button } from '@blueprintjs/core';
+import styled from 'styled-components';
 import BeadManager from '../../project/beadManager';
+
+const Palette = styled.div`
+    line-height: 0;
+`;
+
+const ColorButton = styled.div`
+    background-color: ${props => props.color};
+    display: inline-block;
+    width: 2rem;
+    height: 2rem;
+    margin: 0;
+    padding: 0;
+    border: 1px solid black;
+`;
 
 function BeadPalette(props) {
     return (
-        <div>
+        <Palette>
             {props.beadManager.getBeads(props.selectedBrand).map((bead) => {
                 return (
-                    <Button
+                    <ColorButton
                         key={bead.code}
-                        style={{background: bead.color}}
+                        color={bead.color}
                         onClick={() => props.setBead(bead)}
-                    >
-                        &nbsp;
-                    </Button>
+                    />
                 );
             })}
-
-        </div>
+        </Palette>
     );
 }
 

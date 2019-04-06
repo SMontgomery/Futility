@@ -1,11 +1,21 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Button } from '@blueprintjs/core';
+import styled from 'styled-components';
+
+const ColorButton = styled.div`
+    background-color: ${props => props.color};
+    display: inline-block;
+    width: 3rem;
+    height: 3rem;
+    margin: 0;
+    padding: 0;
+    border: 1px solid black;
+`;
 
 function SelectedBead(props) {
     return (
         <div>
-            <Button style={{background: props.selectedBead.color}} >&nbsp;</Button>
+            <ColorButton color={props.selectedBead.color}>&nbsp;</ColorButton>
             <div>{props.selectedBead.brand}</div>
             <div>{props.selectedBead.name}</div>
         </div>
