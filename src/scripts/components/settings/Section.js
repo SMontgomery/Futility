@@ -1,20 +1,14 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Card, H6 } from '@blueprintjs/core';
-import styled from 'styled-components';
-
-const CardBody = styled.div`
-    padding-left: 1rem;
-`;
+import Card from 'react-bootstrap/Card';
 
 function Section(props) {
     return (
         <Card>
-            <H6>{props.title}</H6>
-
-            <CardBody>
+            <Card.Header>{props.title}</Card.Header>
+            <Card.Body>
                 {props.children}
-            </CardBody>
+            </Card.Body>
         </Card>
     );
 }

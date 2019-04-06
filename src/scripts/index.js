@@ -9,7 +9,8 @@ import brands from './project/brands';
 import { setSelectedBead, setSelectedBrand } from './state/actions/uiActions';
 
 import 'normalize.css/normalize.css';
-import '@blueprintjs/core/lib/css/blueprint.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'rc-slider/assets/index.css';
 import '../styles/index.scss';
 
 const { store, persistor } = configureStore();
