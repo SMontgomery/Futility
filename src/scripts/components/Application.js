@@ -28,7 +28,7 @@ function Application(props) {
         });
 
         props.addTranslationForLanguage(englishTranslations, 'en');
-    });
+    }, []);
 
     return (
         <React.Fragment>
