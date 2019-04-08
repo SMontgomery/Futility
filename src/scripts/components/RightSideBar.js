@@ -2,12 +2,13 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import Table from 'react-bootstrap/Table';
+import { getTranslate, Translate } from 'react-localize-redux';
 
 function RightSideBar(props) {
 
     const beadData = props.beads.map((beadInfo, index) => ({
         index,
-        brand: beadInfo.bead.brand,
+        brand: props.translate(`brand.${beadInfo.bead.brand}`),
         name: beadInfo.bead.name,
         count: beadInfo.count
     })).sort((b1, b2) => {
@@ -33,9 +34,9 @@ function RightSideBar(props) {
             <Table striped size='sm'>
                 <thead>
                     <tr>
-                        <th>Brand</th>
-                        <th>Color</th>
-                        <th>Count</th>
+                        <th><Translate id='common.brand'/></th>
+                        <th><Translate id='common.color'/></th>
+                        <th><Translate id='common.count'/></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -54,11 +55,13 @@ function RightSideBar(props) {
 
 RightSideBar.propTypes = {
     beads: PropTypes.array,
-    className: PropTypes.string
+    className: PropTypes.string,
+    translate: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
-    beads: state.project.beads
+    beads: state.project.beads,
+    translate: getTranslate(state.localize)
 });
 
 export default connect(mapStateToProps)(RightSideBar);

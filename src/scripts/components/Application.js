@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useEffect } from 'react';
+import { renderToStaticMarkup } from 'react-dom/server';
 import { connect } from 'react-redux';
 import Header from './Header';
 import LeftSideBar from './LeftSideBar';
@@ -9,8 +10,25 @@ import RightSideBar from './RightSideBar';
 import WorkArea from './workarea/WorkArea';
 import { createProject } from '../state/actions/projectActions';
 import { isEmpty } from 'lodash';
+import { withLocalize } from 'react-localize-redux';
+import englishTranslations from '../../translations/en.translations';
 
 function Application(props) {
+
+    useEffect(() => {
+        props.initialize({
+            languages: [
+                { name: 'English', code: 'en' }
+            ],
+            options: {
+                renderToStaticMarkup,
+                renderInnerHtml: true,
+                defaultLanguage: 'en'
+            }
+        });
+
+        props.addTranslationForLanguage(englishTranslations, 'en');
+    });
 
     return (
         <React.Fragment>
@@ -38,12 +56,13 @@ function Application(props) {
 }
 
 Application.propTypes = {
+    addTranslationForLanguage: PropTypes.func.isRequired,
     appName: PropTypes.string.isRequired,
     beadManager: PropTypes.instanceOf(BeadManager).isRequired,
     createProject: PropTypes.func.isRequired,
+    initialize: PropTypes.func.isRequired,
     project: PropTypes.object.isRequired
 };
-
 
 const mapStateToProps = (state) => ({
     project: state.project
@@ -54,5 +73,5 @@ const mapDispatchToProps = (dispatch) => ({
         dispatch(createProject(boardWidth, boardHeight, boardsAcross, boardsDown))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Application);
+export default connect(mapStateToProps, mapDispatchToProps)(withLocalize(Application));
 

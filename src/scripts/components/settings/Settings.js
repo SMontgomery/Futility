@@ -18,6 +18,7 @@ import {
     setBoardGridColor, setBoardGridEnabled, setCustomGridColor, setCustomGridEnabled, setCustomGridSize,
     setLineGridColor, setLineGridEnabled, setPegGridColor, setPegGridEnabled
 } from '../../state/actions/settingsActions';
+import { getTranslate, Translate } from 'react-localize-redux';
 
 const alignItemsCenter = `align-items: center;`;
 
@@ -37,19 +38,19 @@ function Settings(props) {
     const [customGridSize, setCustomGridSize] = useState(props.customGridSize);
 
     const renderBackgroundSettings = () => (
-        <Section title='Background Type'>
+        <Section title={props.translate('settings.section.backgroundType.title')}>
             <Container>
                 <Row noGutters css={alignItemsCenter}>
                     <Col md={6}>
                         <Form.Check
                             type='radio'
-                            label='Plain'
+                            label={props.translate('settings.section.backgroundType.plain')}
                             checked={ backgroundType === backgroundTypes.PLAIN }
                             onChange={ () => setBackgroundType(backgroundTypes.PLAIN) }/>
                     </Col>
                     <Col md={6}>
                         <ColorPicker
-                            text='Primary Color'
+                            text={props.translate('settings.section.backgroundType.primaryColor')}
                             color={ backgroundPrimaryColor }
                             onChange={ (color) => setBackgroundPrimaryColor(color) }
                             buttonFill />
@@ -59,13 +60,13 @@ function Settings(props) {
                     <Col md={6}>
                         <Form.Check
                             type='radio'
-                            label='Checkerboard'
+                            label={props.translate('settings.section.backgroundType.checkerboard')}
                             checked={ backgroundType === backgroundTypes.CHECKERBOARD }
                             onChange={ () => setBackgroundType(backgroundTypes.CHECKERBOARD) }/>
                     </Col>
                     <Col md={6}>
                         <ColorPicker
-                            text='Secondary Color'
+                            text={props.translate('settings.section.backgroundType.secondaryColor')}
                             color={ backgroundSecondaryColor }
                             onChange={ (color) => setBackgroundSecondaryColor(color) }
                             buttonFill />
@@ -76,13 +77,13 @@ function Settings(props) {
     );
 
     const renderBeadSettings = () => (
-        <Section title='Bead Shape'>
+        <Section title={props.translate('settings.section.beadShape.title')}>
             <Container>
                 <Row noGutters>
                     <Col>
                         <Form.Check
                             type='radio'
-                            label='Normal'
+                            label={props.translate('settings.section.beadShape.normal')}
                             checked={ beadShape === beadShapes.NORMAL }
                             onChange={ () =>setBeadShape(beadShapes.NORMAL) }
                         />
@@ -90,7 +91,7 @@ function Settings(props) {
                     <Col>
                         <Form.Check
                             type='radio'
-                            label='Round'
+                            label={props.translate('settings.section.beadShape.round')}
                             checked={ beadShape === beadShapes.ROUND }
                             onChange={ () =>setBeadShape(beadShapes.ROUND) }
                         />
@@ -98,7 +99,7 @@ function Settings(props) {
                     <Col>
                         <Form.Check
                             type='radio'
-                            label='Square'
+                            label={props.translate('settings.section.beadShape.square')}
                             checked={ beadShape === beadShapes.SQUARE }
                             onChange={ () =>setBeadShape(beadShapes.SQUARE) }
                         />
@@ -116,14 +117,14 @@ function Settings(props) {
             <Col md={4}>
                 <Form.Check
                     type='checkbox'
-                    label='Enabled'
+                    label={props.translate('settings.section.guides.enabled')}
                     checked={enabled}
                     onChange={(event) => setEnabled(event.target.checked)}
                 />
             </Col>
             <Col md={4}>
                 <ColorPicker
-                    text='Grid Color'
+                    text={props.translate('settings.section.guides.gridColor')}
                     color={color}
                     onChange={(color) => setColor(color)}
                 />
@@ -132,19 +133,19 @@ function Settings(props) {
     );
 
     const renderGuideSettings = () => (
-        <Section title='Guides'>
+        <Section title={props.translate('settings.section.guides.title')}>
             <Container>
-                {renderGridSettings('Peg Grid', pegGridEnabled, setPegGridEnabled, pegGridColor, setPegGridColor)}
+                {renderGridSettings(props.translate('settings.section.guides.pegGrid'), pegGridEnabled, setPegGridEnabled, pegGridColor, setPegGridColor)}
                 <hr/>
-                {renderGridSettings('Line Grid', lineGridEnabled, setLineGridEnabled, lineGridColor, setLineGridColor)}
+                {renderGridSettings(props.translate('settings.section.guides.lineGrid'), lineGridEnabled, setLineGridEnabled, lineGridColor, setLineGridColor)}
                 <hr/>
-                {renderGridSettings('Board Grid', boardGridEnabled, setBoardGridEnabled, boardGridColor, setBoardGridColor)}
+                {renderGridSettings(props.translate('settings.section.guides.boardGrid'), boardGridEnabled, setBoardGridEnabled, boardGridColor, setBoardGridColor)}
                 <hr/>
-                {renderGridSettings('Custom Grid', customGridEnabled, setCustomGridEnabled, customGridColor, setCustomGridColor)}
+                {renderGridSettings(props.translate('settings.section.guides.customGrid'), customGridEnabled, setCustomGridEnabled, customGridColor, setCustomGridColor)}
                 <br/>
                 <Row noGutters css={alignItemsCenter}>
                     <Col md={{ offset: 4, span: 4 }}>
-                        Grid Size ({customGridSize})
+                        <Translate id='settings.section.guides.gridSize'/> ({customGridSize})
                     </Col>
                     <Col md={4}>
                         <Slider
@@ -231,7 +232,9 @@ function Settings(props) {
     return (
         <React.Fragment>
             <Modal.Header closeButton>
-                <Modal.Title>Settings</Modal.Title>
+                <Modal.Title>
+                    <Translate id='settings.title'/>
+                </Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <Container>
@@ -243,7 +246,7 @@ function Settings(props) {
                         </Col>
 
                         <Col md={5}>
-                            <Section title='Preview'>
+                            <Section title={props.translate('settings.section.preview.title')}>
                                 <WorkArea
                                     backgroundSettings={{backgroundType, primaryColor: backgroundPrimaryColor, secondaryColor: backgroundSecondaryColor}}
                                     beads={beads}
@@ -261,16 +264,22 @@ function Settings(props) {
                                     maxWidth='240px'
                                 />
 
-                                This preview uses a board size of 15 in order to better display the board grid.
+                                <Translate id='settings.section.preview.sizeNote' data={{ boardSize: 15}}/>
                             </Section>
                         </Col>
                     </Row>
                 </Container>
             </Modal.Body>
             <Modal.Footer>
-                <Button onClick={ props.closeDialog }>Cancel</Button>
-                <Button onClick={ handleRestore }>Reset to Defaults</Button>
-                <Button onClick={ handleSave } variant='primary'>Save</Button>
+                <Button onClick={ props.closeDialog }>
+                    <Translate id='settings.button.cancel'/>
+                </Button>
+                <Button onClick={ handleRestore }>
+                    <Translate id='settings.button.reset'/>
+                </Button>
+                <Button onClick={ handleSave } variant='primary'>
+                    <Translate id='settings.button.save'/>
+                </Button>
             </Modal.Footer>
         </React.Fragment>
     );
@@ -289,7 +298,8 @@ const mapStateToProps = (state) => ({
     boardGridColor: state.settings.boardGrid.color,
     customGridEnabled: state.settings.customGrid.enabled,
     customGridColor: state.settings.customGrid.color,
-    customGridSize: state.settings.customGrid.size
+    customGridSize: state.settings.customGrid.size,
+    translate: getTranslate(state.localize)
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -337,7 +347,8 @@ Settings.propTypes = {
     setLineGridColor: PropTypes.func.isRequired,
     setLineGridEnabled: PropTypes.func.isRequired,
     setPegGridColor: PropTypes.func.isRequired,
-    setPegGridEnabled: PropTypes.func.isRequired
+    setPegGridEnabled: PropTypes.func.isRequired,
+    translate: PropTypes.func.isRequired
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Settings);

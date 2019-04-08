@@ -15,6 +15,7 @@ import Settings from './settings/Settings';
 import {
     setBackgroundType, setBeadShape, setBoardGridEnabled, setCustomGridEnabled, setLineGridEnabled, setPegGridEnabled
 } from '../state/actions/settingsActions';
+import { getTranslate, Translate } from 'react-localize-redux';
 
 const StyledNavbar = styled(Navbar)`
     .nav-link {
@@ -55,12 +56,16 @@ function Header(props) {
                     { props.appName }
                 </Navbar.Brand>
 
-                <NavDropdown title='Edit'>
-                    <NavDropdown.Item onClick={() => toggleDialog(true)}>Settings...</NavDropdown.Item>
+                <NavDropdown title={props.translate('menu.edit')}>
+                    <NavDropdown.Item onClick={() => toggleDialog(true)}>
+                        <Translate id='menu.settings'/>
+                    </NavDropdown.Item>
                 </NavDropdown>
 
                 <Dropdown as={NavItem}>
-                    <Dropdown.Toggle as={NavLink}>View</Dropdown.Toggle>
+                    <Dropdown.Toggle as={NavLink}>
+                        <Translate id='menu.view'/>
+                    </Dropdown.Toggle>
                     <Dropdown.Menu>
                         <Dropdown.Item
                             as={Dropdown} drop='right'
@@ -69,16 +74,18 @@ function Header(props) {
                             onMouseLeave={() => toggleBackgroundMenu(false)}
                         >
                             <Dropdown.Toggle as='span'>
-                                <DropdownToggleText>Background</DropdownToggleText>
+                                <DropdownToggleText>
+                                    <Translate id='menu.backgrounds'/>
+                                </DropdownToggleText>
                             </Dropdown.Toggle>
                             <Dropdown.Menu>
                                 <Dropdown.Item onClick={() => props.setBackgroundType(backgroundTypes.PLAIN)}>
                                     {props.backgroundType === backgroundTypes.PLAIN ? (<CheckIcon />) : (<BlankIcon />)}
-                                    Plain
+                                    <Translate id='menu.plain'/>
                                 </Dropdown.Item>
                                 <Dropdown.Item onClick={() => props.setBackgroundType(backgroundTypes.CHECKERBOARD)}>
                                     {props.backgroundType === backgroundTypes.CHECKERBOARD ? (<CheckIcon />) : (<BlankIcon />)}
-                                    Checkerboard
+                                    <Translate id='menu.checkerboard'/>
                                 </Dropdown.Item>
                             </Dropdown.Menu>
                         </Dropdown.Item>
@@ -90,20 +97,22 @@ function Header(props) {
                             onMouseLeave={() => toggleBeadMenu(false)}
                         >
                             <Dropdown.Toggle as='span'>
-                                <DropdownToggleText>Bead</DropdownToggleText>
+                                <DropdownToggleText>
+                                    <Translate id='menu.beads'/>
+                                </DropdownToggleText>
                             </Dropdown.Toggle>
                             <Dropdown.Menu>
                                 <Dropdown.Item onClick={() => props.setBeadShape(beadShapes.NORMAL)}>
                                     {props.beadShape === beadShapes.NORMAL ? (<CheckIcon />) : (<BlankIcon />)}
-                                    Normal
+                                    <Translate id='menu.normal'/>
                                 </Dropdown.Item>
                                 <Dropdown.Item onClick={() => props.setBeadShape(beadShapes.ROUND)}>
                                     {props.beadShape === beadShapes.ROUND ? (<CheckIcon />) : (<BlankIcon />)}
-                                    Round
+                                    <Translate id='menu.round'/>
                                 </Dropdown.Item>
                                 <Dropdown.Item onClick={() => props.setBeadShape(beadShapes.SQUARE)}>
                                     {props.beadShape === beadShapes.SQUARE ? (<CheckIcon />) : (<BlankIcon />)}
-                                    Square
+                                    <Translate id='menu.square'/>
                                 </Dropdown.Item>
                             </Dropdown.Menu>
                         </Dropdown.Item>
@@ -115,24 +124,26 @@ function Header(props) {
                             onMouseLeave={() => toggleGuidesMenu(false)}
                         >
                             <Dropdown.Toggle as='span'>
-                                <DropdownToggleText>Guides</DropdownToggleText>
+                                <DropdownToggleText>
+                                    <Translate id='menu.guides'/>
+                                </DropdownToggleText>
                             </Dropdown.Toggle>
                             <Dropdown.Menu>
                                 <Dropdown.Item onClick={() => props.setPegGridEnabled(!props.pegGridEnabled)}>
                                     {props.pegGridEnabled ? (<CheckIcon />) : (<BlankIcon />)}
-                                    Peg Grid
+                                    <Translate id='menu.pegGrid'/>
                                 </Dropdown.Item>
                                 <Dropdown.Item onClick={() => props.setLineGridEnabled(!props.lineGridEnabled)}>
                                     {props.lineGridEnabled ? (<CheckIcon />) : (<BlankIcon />)}
-                                    Line Grid
+                                    <Translate id='menu.lineGrid'/>
                                 </Dropdown.Item>
                                 <Dropdown.Item onClick={() => props.setBoardGridEnabled(!props.boardGridEnabled)}>
                                     {props.boardGridEnabled ? (<CheckIcon />) : (<BlankIcon />)}
-                                    Board Grid
+                                    <Translate id='menu.boardGrid'/>
                                 </Dropdown.Item>
                                 <Dropdown.Item onClick={() => props.setCustomGridEnabled(!props.customGridEnabled)}>
                                     {props.customGridEnabled ? (<CheckIcon />) : (<BlankIcon />)}
-                                    Custom Grid
+                                    <Translate id='menu.customGrid'/>
                                 </Dropdown.Item>
                             </Dropdown.Menu>
                         </Dropdown.Item>
@@ -163,7 +174,8 @@ Header.propTypes = {
     setBoardGridEnabled: PropTypes.func.isRequired,
     setCustomGridEnabled: PropTypes.func.isRequired,
     setLineGridEnabled: PropTypes.func.isRequired,
-    setPegGridEnabled: PropTypes.func.isRequired
+    setPegGridEnabled: PropTypes.func.isRequired,
+    translate: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
@@ -172,7 +184,8 @@ const mapStateToProps = (state) => ({
     pegGridEnabled: state.settings.pegGrid.enabled,
     lineGridEnabled: state.settings.lineGrid.enabled,
     boardGridEnabled: state.settings.boardGrid.enabled,
-    customGridEnabled: state.settings.customGrid.enabled
+    customGridEnabled: state.settings.customGrid.enabled,
+    translate: getTranslate(state.localize)
 });
 
 const mapDispatchToProps = (dispatch) => ({

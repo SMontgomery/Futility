@@ -4,6 +4,7 @@ import storage from 'redux-persist/lib/storage';
 import uiReducer from './reducers/uiReducer';
 import settingsReducer from './reducers/settingsReducer';
 import projectReducer from './reducers/projectReducer';
+import { localizeReducer } from 'react-localize-redux';
 
 
 const persistSettingsConfig = {
@@ -20,7 +21,8 @@ export default () => {
         combineReducers({
             ui: uiReducer,
             project: projectReducer,
-            settings: persistReducer(persistSettingsConfig, settingsReducer)
+            settings: persistReducer(persistSettingsConfig, settingsReducer),
+            localize: localizeReducer
         }), composeEnhancers()
     );
 

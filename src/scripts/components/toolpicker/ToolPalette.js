@@ -8,6 +8,7 @@ import { setSelectedTool } from '../../state/actions/uiActions';
 import tools from '../../state/tools';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
+import { getTranslate, Translate } from 'react-localize-redux';
 
 const Palette = styled.div`
     line-height: 0;
@@ -27,9 +28,8 @@ function ToolPalette(props) {
                 delay={{ show: 500, hide: 0 }}
                 placement='right'
                 overlay={
-                    <Popover title='Pencil Tool'>
-                        Left Mouse - Place bead on board.
-                        Right Mouse - Remove bead from board.
+                    <Popover title={props.translate(`tool.${tools.PENCIL}.name`)}>
+                        <Translate id={`tool.${tools.PENCIL}.description`}/>
                     </Popover>
                 }
             >
@@ -48,11 +48,13 @@ function ToolPalette(props) {
 
 ToolPalette.propTypes = {
     selectedTool: PropTypes.string.isRequired,
-    setTool: PropTypes.func.isRequired
+    setTool: PropTypes.func.isRequired,
+    translate: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
-    selectedTool: state.ui.selectedTool
+    selectedTool: state.ui.selectedTool,
+    translate: getTranslate(state.localize)
 });
 
 const mapDispatchToProps = (dispatch) => ({

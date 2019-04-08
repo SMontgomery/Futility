@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import styled from 'styled-components';
+import { Translate } from 'react-localize-redux';
 
 const ColorButton = styled.div`
     background-color: ${props => props.color};
@@ -16,7 +17,7 @@ function SelectedBead(props) {
     return (
         <div>
             <ColorButton color={props.selectedBead.color}>&nbsp;</ColorButton>
-            <div>{props.selectedBead.brand}</div>
+            <div><Translate id={`brand.${props.selectedBead.brand}`}/></div>
             <div>{props.selectedBead.name}</div>
         </div>
     );

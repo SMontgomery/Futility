@@ -19,8 +19,8 @@ Section.propTypes = {
 };
 
 Section.defaultProps = {
-    title: 'Title',
-    children: 'Body'
+    title: '',
+    children: ''
 };
 
 export default Section;
