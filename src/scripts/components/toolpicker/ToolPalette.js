@@ -3,18 +3,26 @@ import React from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import Button from 'react-bootstrap/Button';
-import { FaPencilAlt } from 'react-icons/fa';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPencilAlt, faSlash } from '@fortawesome/free-solid-svg-icons';
 import { setSelectedTool } from '../../state/actions/uiActions';
 import tools from '../../state/tools';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
 import { getTranslate, Translate } from 'react-localize-redux';
 
+const tooltipShowDelay = 750;
+const tooltipHideDelay = 0;
+
 const Palette = styled.div`
     line-height: 0;
 `;
 
-const ToolButton = styled(Button)`
+const ToolButton = ({selectedTool, ...otherProps}) => (
+    <Button {...otherProps}>{otherProps.children}</Button>
+);
+
+const StyledToolButton = styled(ToolButton)`
     color: ${props => props.selectedTool ? 'white' : ''};
      
 `;
@@ -25,7 +33,7 @@ function ToolPalette(props) {
         <Palette>
             <OverlayTrigger
                 trigger='hover'
-                delay={{ show: 500, hide: 0 }}
+                delay={{ show: tooltipShowDelay, hide: tooltipHideDelay }}
                 placement='right'
                 overlay={
                     <Popover title={props.translate(`tool.${tools.PENCIL}.name`)}>
@@ -33,15 +41,36 @@ function ToolPalette(props) {
                     </Popover>
                 }
             >
-                <ToolButton
+                <StyledToolButton
                     size='lg'
                     selectedTool={props.selectedTool === tools.PENCIL}
                     variant={props.selectedTool === tools.PENCIL ? 'secondary' : 'outline-secondary'}
                     onClick={() => props.selectedTool !== tools.PENCIL && props.setTool(tools.PENCIL)}
                 >
-                    <FaPencilAlt />
-                </ToolButton>
+                    <FontAwesomeIcon icon={faPencilAlt} fixedWidth/>
+                </StyledToolButton>
             </OverlayTrigger>
+
+            <OverlayTrigger
+                trigger='hover'
+                delay={{ show: tooltipShowDelay, hide: tooltipHideDelay }}
+                placement='right'
+                overlay={
+                    <Popover title={props.translate(`tool.${tools.LINE}.name`)}>
+                        <Translate id={`tool.${tools.LINE}.description`}/>
+                    </Popover>
+                }
+            >
+                <StyledToolButton
+                    size='lg'
+                    selectedTool={props.selectedTool === tools.LINE}
+                    variant={props.selectedTool === tools.LINE ? 'secondary' : 'outline-secondary'}
+                    onClick={() => props.selectedTool !== tools.LINE && props.setTool(tools.LINE)}
+                >
+                    <FontAwesomeIcon icon={faSlash} flip='horizontal' fixedWidth />
+                </StyledToolButton>
+            </OverlayTrigger>
+
         </Palette>
     );
 }

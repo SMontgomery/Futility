@@ -69,6 +69,10 @@
         "PENCIL": {
             "name": "Pencil Tool",
             "description": "Left Mouse - Place bead on board.<br/>Right Mouse - Remove bead from board."
+        },
+        "LINE": {
+            "name": "Line Tool",
+            "description": "Left Mouse - Place line of beads on board.<br/>Right Mouse - Remove line of beads from board."
         }
     }
 }

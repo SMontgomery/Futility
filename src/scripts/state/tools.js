@@ -1,6 +1,6 @@
 export default {
-    PENCIL: 'PENCIL'
-    // LINE: 'LINE',
+    PENCIL: 'PENCIL',
+    LINE: 'LINE'
     // ELLIPSE: 'ELLIPSE',
     // ELLIPSE_FILL: 'ELLIPSE_FILL',
     // RECTANGLE: 'RECTANGLE',

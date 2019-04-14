@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useRef } from 'react';
-import { fillCircle, drawLine } from '../../utils/draw';
+import { fillCircle, drawLine, fillRectangle } from '../../utils/canvasUtils';
 import backgroundTypes from '../../state/backgroundTypes';
 
 const PEG_RADIUS = 1.5;
@@ -12,7 +12,6 @@ function BoardCanvas(props) {
 
     const canvasRef = useRef();
 
-
     useEffect(() => {
         const canvas = canvasRef.current;
         const context = canvas.getContext('2d');
@@ -20,19 +19,17 @@ function BoardCanvas(props) {
         // Draw background
         if (backgroundSettings.backgroundType === backgroundTypes.CHECKERBOARD) {
             context.fillStyle = backgroundSettings.primaryColor;
-            context.fillRect(0, 0, canvas.width, canvas.height);
+            fillRectangle(context, 0, 0, canvas.width, canvas.height, backgroundSettings.primaryColor);
 
             const halfBeadSize = beadSize / 2;
-            context.fillStyle = backgroundSettings.secondaryColor;
             for(let x = 0; x < canvas.width; x += beadSize) {
                 for(let y = 0; y < canvas.height; y += beadSize) {
-                    context.fillRect(x, y, halfBeadSize, halfBeadSize);
-                    context.fillRect(x + halfBeadSize, y + halfBeadSize, halfBeadSize, halfBeadSize);
+                    fillRectangle(context, x, y, halfBeadSize, halfBeadSize, backgroundSettings.secondaryColor);
+                    fillRectangle(context, x + halfBeadSize, y + halfBeadSize, halfBeadSize, halfBeadSize, backgroundSettings.secondaryColor);
                 }
             }
         } else {
-            context.fillStyle = backgroundSettings.primaryColor;
-            context.fillRect(0, 0, canvas.width, canvas.height);
+            fillRectangle(context, 0, 0, canvas.width, canvas.height, backgroundSettings.primaryColor);
         }
 
         // Draw pegs
@@ -46,43 +43,40 @@ function BoardCanvas(props) {
 
         // Draw line grid
         if (lineGridSettings.enabled) {
-            context.strokeStyle = lineGridSettings.color;
             // Y lines
             for (let x = 0; x <= canvas.width; x += beadSize) {
-                drawLine(context, x, .5, x, canvas.height);
+                drawLine(context, x, .5, x, canvas.height, 1, lineGridSettings.color);
             }
 
             // X lines
             for (let y = 0; y <= canvas.height; y += beadSize) {
-                drawLine(context, .5, y, canvas.width, y);
+                drawLine(context, .5, y, canvas.width, y, 1, lineGridSettings.color);
             }
         }
 
         // Draw custom grid
         if (customGridSettings.enabled) {
-            context.strokeStyle = customGridSettings.color;
             // Y lines
             for (let x = 0; x <= canvas.width; x += beadSize * customGridSettings.size) {
-                drawLine(context, x, .5, x, canvas.height);
+                drawLine(context, x, .5, x, canvas.height, 1, customGridSettings.color);
             }
 
             // X lines
             for (let y = 0; y <= canvas.height; y += beadSize * customGridSettings.size) {
-                drawLine(context, .5, y, canvas.width, y);
+                drawLine(context, .5, y, canvas.width, y, 1, customGridSettings.color);
             }
         }
 
         // Draw board grid
         if (boardGridSettings.enabled) {
-            context.strokeStyle = boardGridSettings.color;
             // Y lines
             for (let x = 0; x <= canvas.width; x += beadSize * boardHeight) {
-                drawLine(context, x, .5, x, canvas.height);
+                drawLine(context, x, .5, x, canvas.height, 1, boardGridSettings.color);
             }
 
             // X lines
             for (let y = 0; y <= canvas.height; y += beadSize * boardWidth) {
-                drawLine(context, .5, y, canvas.width, y);
+                drawLine(context, .5, y, canvas.width, y, 1, boardGridSettings.color);
             }
         }
     });

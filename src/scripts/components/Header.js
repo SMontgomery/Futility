@@ -6,7 +6,8 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import NavItem from 'react-bootstrap/NavItem';
 import NavLink from 'react-bootstrap/NavLink';
 import Modal from 'react-bootstrap/Modal';
-import { FaCheck } from 'react-icons/fa';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import backgroundTypes from '../state/backgroundTypes';
@@ -32,7 +33,8 @@ const DropdownToggleText = styled.span`
     width: 100%;
 `;
 
-const CheckIcon = styled(FaCheck)`
+
+const CheckIcon = styled(FontAwesomeIcon)`
     padding-right: .5rem;
 `;
 
@@ -80,11 +82,11 @@ function Header(props) {
                             </Dropdown.Toggle>
                             <Dropdown.Menu>
                                 <Dropdown.Item onClick={() => props.setBackgroundType(backgroundTypes.PLAIN)}>
-                                    {props.backgroundType === backgroundTypes.PLAIN ? (<CheckIcon />) : (<BlankIcon />)}
+                                    {props.backgroundType === backgroundTypes.PLAIN ? (<CheckIcon icon={faCheck}/>) : (<BlankIcon />)}
                                     <Translate id='menu.plain'/>
                                 </Dropdown.Item>
                                 <Dropdown.Item onClick={() => props.setBackgroundType(backgroundTypes.CHECKERBOARD)}>
-                                    {props.backgroundType === backgroundTypes.CHECKERBOARD ? (<CheckIcon />) : (<BlankIcon />)}
+                                    {props.backgroundType === backgroundTypes.CHECKERBOARD ? (<CheckIcon icon={faCheck}/>) : (<BlankIcon />)}
                                     <Translate id='menu.checkerboard'/>
                                 </Dropdown.Item>
                             </Dropdown.Menu>
@@ -103,15 +105,15 @@ function Header(props) {
                             </Dropdown.Toggle>
                             <Dropdown.Menu>
                                 <Dropdown.Item onClick={() => props.setBeadShape(beadShapes.NORMAL)}>
-                                    {props.beadShape === beadShapes.NORMAL ? (<CheckIcon />) : (<BlankIcon />)}
+                                    {props.beadShape === beadShapes.NORMAL ? (<CheckIcon icon={faCheck}/>) : (<BlankIcon />)}
                                     <Translate id='menu.normal'/>
                                 </Dropdown.Item>
                                 <Dropdown.Item onClick={() => props.setBeadShape(beadShapes.ROUND)}>
-                                    {props.beadShape === beadShapes.ROUND ? (<CheckIcon />) : (<BlankIcon />)}
+                                    {props.beadShape === beadShapes.ROUND ? (<CheckIcon icon={faCheck}/>) : (<BlankIcon />)}
                                     <Translate id='menu.round'/>
                                 </Dropdown.Item>
                                 <Dropdown.Item onClick={() => props.setBeadShape(beadShapes.SQUARE)}>
-                                    {props.beadShape === beadShapes.SQUARE ? (<CheckIcon />) : (<BlankIcon />)}
+                                    {props.beadShape === beadShapes.SQUARE ? (<CheckIcon icon={faCheck}/>) : (<BlankIcon />)}
                                     <Translate id='menu.square'/>
                                 </Dropdown.Item>
                             </Dropdown.Menu>
@@ -130,19 +132,19 @@ function Header(props) {
                             </Dropdown.Toggle>
                             <Dropdown.Menu>
                                 <Dropdown.Item onClick={() => props.setPegGridEnabled(!props.pegGridEnabled)}>
-                                    {props.pegGridEnabled ? (<CheckIcon />) : (<BlankIcon />)}
+                                    {props.pegGridEnabled ? (<CheckIcon icon={faCheck}/>) : (<BlankIcon />)}
                                     <Translate id='menu.pegGrid'/>
                                 </Dropdown.Item>
                                 <Dropdown.Item onClick={() => props.setLineGridEnabled(!props.lineGridEnabled)}>
-                                    {props.lineGridEnabled ? (<CheckIcon />) : (<BlankIcon />)}
+                                    {props.lineGridEnabled ? (<CheckIcon icon={faCheck}/>) : (<BlankIcon />)}
                                     <Translate id='menu.lineGrid'/>
                                 </Dropdown.Item>
                                 <Dropdown.Item onClick={() => props.setBoardGridEnabled(!props.boardGridEnabled)}>
-                                    {props.boardGridEnabled ? (<CheckIcon />) : (<BlankIcon />)}
+                                    {props.boardGridEnabled ? (<CheckIcon icon={faCheck}/>) : (<BlankIcon />)}
                                     <Translate id='menu.boardGrid'/>
                                 </Dropdown.Item>
                                 <Dropdown.Item onClick={() => props.setCustomGridEnabled(!props.customGridEnabled)}>
-                                    {props.customGridEnabled ? (<CheckIcon />) : (<BlankIcon />)}
+                                    {props.customGridEnabled ? (<CheckIcon icon={faCheck}/>) : (<BlankIcon />)}
                                     <Translate id='menu.customGrid'/>
                                 </Dropdown.Item>
                             </Dropdown.Menu>

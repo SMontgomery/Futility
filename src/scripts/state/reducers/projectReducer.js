@@ -9,7 +9,9 @@ import {
     REMOVE_BOARD_ROW_FROM_TOP,
     REMOVE_BOARD_ROW_FROM_BOTTOM,
     PLACE_BEAD,
-    REMOVE_BEAD
+    REMOVE_BEAD,
+    PLACE_BEADS,
+    REMOVE_BEADS
 } from '../actions/projectActions';
 
 const projectReducerDefaultState = {};
@@ -27,6 +29,8 @@ function projectReducer(state = projectReducerDefaultState, action) {
         case REMOVE_BOARD_ROW_FROM_BOTTOM:
         case PLACE_BEAD:
         case REMOVE_BEAD:
+        case PLACE_BEADS:
+        case REMOVE_BEADS:
             return { ...state, ...action.project };
         default:
             return state;

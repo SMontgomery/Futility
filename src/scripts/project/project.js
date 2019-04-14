@@ -368,7 +368,9 @@ export default class Project {
             logger.debug(`Placed new bead and incremented count.`, this.constructor.name);
         } else {
             // Remove bead
-            delete this._project.boards[board][x][y];
+            if (x in this._project.boards[board]) {
+                delete this._project.boards[board][x][y];
+            }
             logger.debug(`Removed bead and decremented count.`, this.constructor.name);
         }
     }

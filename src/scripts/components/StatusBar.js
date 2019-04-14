@@ -4,10 +4,13 @@ import { connect } from 'react-redux';
 import { getTranslate } from 'react-localize-redux';
 
 function StatusBar(props) {
+
+    const boardCoordinates = props.mouseCoordinates ? props.mouseCoordinates.board : undefined;
+
     return (
         <div className={props.className}>
-            {props.mouseCoordinates && (
-                `${props.translate('common.board')}: ${props.mouseCoordinates.boardIndex} / ${props.translate('common.position')}: ${props.mouseCoordinates.boardX}, ${props.mouseCoordinates.boardY}`
+            {boardCoordinates && (
+                `${props.translate('common.board')}: ${boardCoordinates.boardIndex} / ${props.translate('common.position')}: ${boardCoordinates.boardX}, ${boardCoordinates.boardY}`
             )}
         </div>
     );

@@ -4,14 +4,15 @@ import { ChromePicker} from 'react-color';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Button from 'react-bootstrap/Button';
 import Popover from 'react-bootstrap/Popover';
-import { FaSquare } from 'react-icons/fa';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSquare } from '@fortawesome/free-solid-svg-icons';
 import styled from 'styled-components';
 
 const ButtonContent = styled.span`
     white-space: nowrap;
 `;
 
-const ColorIcon = styled(FaSquare)`
+const ColorIcon = styled(FontAwesomeIcon)`
     color: ${props => props.color};
     margin-right: .5rem;
     border: 1px solid black;
@@ -37,7 +38,7 @@ function ColorPicker(props) {
         <OverlayTrigger trigger={props.trigger} placement={props.placement} overlay={picker}>
             <Button variant='secondary' size='sm'>
                 <ButtonContent>
-                    <ColorIcon color={selectedColor}/>
+                    <ColorIcon icon={faSquare} color={selectedColor}/>
                     {props.text || selectedColor}
                 </ButtonContent>
             </Button>
