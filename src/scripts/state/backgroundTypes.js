@@ -1,4 +1,4 @@
 export default {
-    PLAIN: 'PLAIN',
-    CHECKERBOARD: 'CHECKERBOARD'
+  PLAIN: 'PLAIN',
+  CHECKERBOARD: 'CHECKERBOARD',
 };

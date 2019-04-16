@@ -1,5 +1,5 @@
 export default {
-    NORMAL: 'NORMAL',
-    ROUND: 'ROUND',
-    SQUARE: 'SQUARE'
+  NORMAL: 'NORMAL',
+  ROUND: 'ROUND',
+  SQUARE: 'SQUARE',
 };

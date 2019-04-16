@@ -7,7 +7,8 @@
     },
     "extends": [
         "eslint:recommended",
-        "plugin:react/recommended"
+        "plugin:react/recommended",
+        "google"
     ],
     "parserOptions": {
         "ecmaFeatures": {
@@ -20,30 +21,21 @@
         "react",
         "react-hooks"
     ],
+    "settings": {
+        "react": {
+            "version": "detect"
+        }
+    },
     "rules": {
-        "indent": [
-            "error",
-            4,
-            { "SwitchCase":  1 }
-        ],
-        "linebreak-style": [
-            "error",
-            "unix"
-        ],
-        "quotes": [
-            "error",
-            "single",
-            { "allowTemplateLiterals": true }
-        ],
-        "semi": [
-            "error",
-            "always"
-        ],
-        "comma-dangle": [
-            "error",
-            "never"
-        ],
         "react-hooks/rules-of-hooks": "error",
-        "react-hooks/exhaustive-deps": "warn"
+        "react-hooks/exhaustive-deps": "warn",
+
+        "curly": "error",
+        "max-len": ["error", {
+            "code": 120,
+            "tabWidth": 2,
+            "ignoreUrls": true
+        }],
+        "require-jsdoc": 0
     }
 }

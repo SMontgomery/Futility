@@ -1,15 +1,15 @@
-import { createStore, combineReducers, compose } from 'redux';
-import { persistStore, persistReducer } from 'redux-persist';
+import {createStore, combineReducers, compose} from 'redux';
+import {persistStore, persistReducer} from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import uiReducer from './reducers/uiReducer';
 import settingsReducer from './reducers/settingsReducer';
 import projectReducer from './reducers/projectReducer';
-import { localizeReducer } from 'react-localize-redux';
+import {localizeReducer} from 'react-localize-redux';
 
 
 const persistSettingsConfig = {
-    key: 'settings',
-    storage
+  key: 'settings',
+  storage,
 };
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
@@ -17,16 +17,16 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 //     window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({ trace: true, traceLimit: 25 }) || compose;
 
 export default () => {
-    const store = createStore(
-        combineReducers({
-            ui: uiReducer,
-            project: projectReducer,
-            settings: persistReducer(persistSettingsConfig, settingsReducer),
-            localize: localizeReducer
-        }), composeEnhancers()
-    );
+  const store = createStore(
+      combineReducers({
+        ui: uiReducer,
+        project: projectReducer,
+        settings: persistReducer(persistSettingsConfig, settingsReducer),
+        localize: localizeReducer,
+      }), composeEnhancers()
+  );
 
-    const persistor = persistStore(store);
+  const persistor = persistStore(store);
 
-    return { store, persistor };
+  return {store, persistor};
 };

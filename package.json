@@ -7,10 +7,14 @@
   "license": "MIT",
   "private": true,
   "scripts": {
+    "lint": "eslint 'src/**/*.js'",
+    "lint-fix": "eslint --fix --quiet 'src/**/*.js'",
+    "format": "prettier --write 'src/**/*.js'",
     "start": "parcel src/index.html",
-    "test": "jest",
     "build": "parcel build src/index.html --out-dir prod",
-    "analyze": "source-map-explorer 'prod/*.js'"
+    "analyze": "source-map-explorer 'prod/*.js'",
+    "pretest": "eslint 'src/**/*.js'",
+    "test": "jest"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.17",
@@ -37,6 +41,7 @@
     "@babel/preset-react": "^7.0.0",
     "babel-plugin-styled-components": "^1.10.0",
     "eslint": "^5.15.1",
+    "eslint-config-google": "^0.12.0",
     "eslint-plugin-react": "^7.12.4",
     "eslint-plugin-react-hooks": "^1.6.0",
     "jest": "^24.5.0",

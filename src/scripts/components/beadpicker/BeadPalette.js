@@ -8,7 +8,7 @@ const Palette = styled.div`
 `;
 
 const ColorButton = styled.div`
-    background-color: ${props => props.color};
+    background-color: ${(props) => props.color};
     display: inline-block;
     width: 2rem;
     height: 2rem;
@@ -18,25 +18,25 @@ const ColorButton = styled.div`
 `;
 
 function BeadPalette(props) {
-    return (
-        <Palette>
-            {props.beadManager.getBeads(props.selectedBrand).map((bead) => {
-                return (
-                    <ColorButton
-                        key={bead.code}
-                        color={bead.color}
-                        onClick={() => props.setBead(bead)}
-                    />
-                );
-            })}
-        </Palette>
-    );
+  return (
+    <Palette>
+      {props.beadManager.getBeads(props.selectedBrand).map((bead) => {
+        return (
+          <ColorButton
+            key={bead.code}
+            color={bead.color}
+            onClick={() => props.setBead(bead)}
+          />
+        );
+      })}
+    </Palette>
+  );
 }
 
 BeadPalette.propTypes = {
-    beadManager: PropTypes.instanceOf(BeadManager).isRequired,
-    selectedBrand: PropTypes.string.isRequired,
-    setBead: PropTypes.func.isRequired
+  beadManager: PropTypes.instanceOf(BeadManager).isRequired,
+  selectedBrand: PropTypes.string.isRequired,
+  setBead: PropTypes.func.isRequired,
 };
 
 export default BeadPalette;
