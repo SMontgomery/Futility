@@ -1,78 +1,91 @@
 {
-    "common": {
-        "brand": "Brand",
-        "color": "Color",
-        "count": "Count",
-        "board": "Board",
-        "position": "Position"
+  "app": {
+    "affiliation": "${appName} is in no way affiliated with Perler, Hama or Nabbi.",
+    "buildDate": "Built ${buildDate}",
+    "copyright": "Copyright ${copyrightYear} ${appFounder}.",
+    "specialThanks": "Special thanks to the following projects",
+    "version": "Version ${version}"
+  },
+  "common": {
+    "brand": "Brand",
+    "color": "Color",
+    "count": "Count",
+    "board": "Board",
+    "position": "Position",
+    "ok": "OK"
+  },
+  "brand": {
+    "PERLER": "Perler",
+    "HAMA": "Hama",
+    "NABBI": "Nabbi"
+  },
+  "menu": {
+    "edit": "Edit",
+    "view": "View",
+    "help": "Help",
+    "about": "About",
+    "settings": "Settings...",
+    "backgrounds": "Backgrounds",
+    "beads": "Beads",
+    "guides": "Guides",
+    "plain": "Plain",
+    "checkerboard": "Checkerboard",
+    "normal": "Normal",
+    "round": "Round",
+    "square": "Square",
+    "pegGrid": "Peg Grid",
+    "lineGrid": "Line Grid",
+    "boardGrid": "Board Grid",
+    "customGrid": "Custom Grid"
+  },
+  "about": {
+    "title": "About ${appname}"
+  },
+  "settings": {
+    "title": "Settings",
+    "button": {
+      "cancel": "Cancel",
+      "save": "Save",
+      "reset": "Reset to Defaults"
     },
-    "brand": {
-        "PERLER": "Perler",
-        "HAMA": "Hama",
-        "NABBI": "Nabbi"
-    },
-    "menu": {
-        "edit": "Edit",
-        "view": "View",
-        "settings": "Settings...",
-        "backgrounds": "Backgrounds",
-        "beads": "Beads",
-        "guides": "Guides",
+    "section": {
+      "backgroundType": {
+        "title": "Background Type",
         "plain": "Plain",
         "checkerboard": "Checkerboard",
+        "primaryColor": "Primary Color",
+        "secondaryColor": "Secondary Color"
+      },
+      "beadShape": {
+        "title": "Bead Shape",
         "normal": "Normal",
         "round": "Round",
-        "square": "Square",
+        "square": "Square"
+      },
+      "guides": {
+        "title": "Guides",
         "pegGrid": "Peg Grid",
         "lineGrid": "Line Grid",
         "boardGrid": "Board Grid",
-        "customGrid": "Custom Grid"
-    },
-    "settings": {
-        "title": "Settings",
-        "button": {
-            "cancel": "Cancel",
-            "save": "Save",
-            "reset": "Reset to Defaults"
-        },
-        "section": {
-            "backgroundType": {
-                "title": "Background Type",
-                "plain": "Plain",
-                "checkerboard": "Checkerboard",
-                "primaryColor": "Primary Color",
-                "secondaryColor": "Secondary Color"
-            },
-            "beadShape": {
-                "title": "Bead Shape",
-                "normal": "Normal",
-                "round": "Round",
-                "square": "Square"
-            },
-            "guides": {
-                "title": "Guides",
-                "pegGrid": "Peg Grid",
-                "lineGrid": "Line Grid",
-                "boardGrid": "Board Grid",
-                "customGrid": "Custom Grid",
-                "gridColor": "Grid Color",
-                "gridSize": "Grid Size",
-                "enabled": "Enabled"
-            },
-            "preview": {
-                "title": "Preview",
-                "sizeNote": "This preview uses a board size of ${boardSize} in order to better display the board grid."
-            }
-        }
-    },
-    "tool": {
-        "PENCIL": {
-            "name": "Pencil Tool",
-            "description": "Left Mouse - Place bead on board.<br/>Right Mouse - Remove bead from board."
-        },
-        "LINE": {
-            "name": "Line Tool",
-            "description": "Left Mouse - Place line of beads on board.<br/>Right Mouse - Remove line of beads from board."
-        }
+        "customGrid": "Custom Grid",
+        "gridColor": "Grid Color",
+        "gridSize": "Grid Size",
+        "enabled": "Enabled"
+      },
+      "preview": {
+        "title": "Preview",
+        "sizeNote": "This preview uses a board size of ${boardSize} in order to better display the board grid."
+      }
     }
+  },
+  "tool": {
+    "PENCIL": {
+      "name": "Pencil Tool",
+      "description": "Left Mouse - Place bead on board.<br/>Right Mouse - Remove bead from board."
+    },
+    "LINE": {
+      "name": "Line Tool",
+      "description": "Left Mouse - Place line of beads on board.<br/>Right Mouse - Remove line of beads from board."
+    }
+  }
 }

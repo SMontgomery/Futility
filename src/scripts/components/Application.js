@@ -33,21 +33,21 @@ function Application(props) {
     <>
       {isEmpty(props.project) ?
         (
-            <div>
-              {props.createProject(10, 10, 2, 2) && ''}
-            </div>
+          <div>
+            {props.createProject(10, 10, 2, 2) && ''}
+          </div>
         ) : (
-            <div className="page">
-              <Header className='header' appName={props.appName} />
+          <div className="page">
+            <Header className='header' appName={props.appName} />
 
-              <LeftSideBar className='left-sidebar' beadManager={props.beadManager} />
+            <LeftSideBar className='left-sidebar' beadManager={props.beadManager} />
 
-              <WorkArea className='main' project={props.project} />
+            <WorkArea className='main' project={props.project} />
 
-              <RightSideBar className='right-sidebar' />
+            <RightSideBar className='right-sidebar' />
 
-              <StatusBar className='footer' />
-            </div>
+            <StatusBar className='footer' />
+          </div>
         )
       }
     </>

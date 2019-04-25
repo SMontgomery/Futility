@@ -5,7 +5,7 @@ import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Button from 'react-bootstrap/Button';
 import Popover from 'react-bootstrap/Popover';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faSquare} from '@fortawesome/free-solid-svg-icons';
+import {faSquare} from '@fortawesome/free-solid-svg-icons/faSquare';
 import styled from 'styled-components';
 
 const ButtonContent = styled.span`

@@ -7,7 +7,7 @@ import NavItem from 'react-bootstrap/NavItem';
 import NavLink from 'react-bootstrap/NavLink';
 import Modal from 'react-bootstrap/Modal';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faCheck} from '@fortawesome/free-solid-svg-icons';
+import {faCheck} from '@fortawesome/free-solid-svg-icons/faCheck';
 import {connect} from 'react-redux';
 import styled from 'styled-components';
 import backgroundTypes from '../state/backgroundTypes';
@@ -17,6 +17,7 @@ import {
   setBackgroundType, setBeadShape, setBoardGridEnabled, setCustomGridEnabled, setLineGridEnabled, setPegGridEnabled,
 } from '../state/actions/settingsActions';
 import {getTranslate, Translate} from 'react-localize-redux';
+import About from './about/About';
 
 const StyledNavbar = styled(Navbar)`
     .nav-link {
@@ -45,7 +46,8 @@ const BlankIcon = styled.span`
 `;
 
 function Header(props) {
-  const [isDialogOpen, toggleDialog] = React.useState(false);
+  const [isSettingsDialogOpen, toggleSettingsDialog] = React.useState(false);
+  const [isAboutDialogOpen, toggleAboutDialog] = React.useState(false);
   const [isBackgroundMenuOpen, toggleBackgroundMenu] = React.useState(false);
   const [isBeadMenuOpen, toggleBeadMenu] = React.useState(false);
   const [isGuidesMenuOpen, toggleGuidesMenu] = React.useState(false);
@@ -58,7 +60,7 @@ function Header(props) {
         </Navbar.Brand>
 
         <NavDropdown title={props.translate('menu.edit')}>
-          <NavDropdown.Item onClick={() => toggleDialog(true)}>
+          <NavDropdown.Item onClick={() => toggleSettingsDialog(true)}>
             <Translate id='menu.settings'/>
           </NavDropdown.Item>
         </NavDropdown>
@@ -154,11 +156,22 @@ function Header(props) {
           </Dropdown.Menu>
         </Dropdown>
 
+        <NavDropdown title={props.translate('menu.help')}>
+          <NavDropdown.Item onClick={() => toggleAboutDialog(true)}>
+            <Translate id='menu.about'/>
+          </NavDropdown.Item>
+        </NavDropdown>
+
       </StyledNavbar>
 
-      <Modal size='lg' backdrop='static' show={isDialogOpen} onHide={() => toggleDialog(false)}>
-        <Settings closeDialog={() => toggleDialog(false)} />
+      <Modal size='lg' backdrop='static' show={isSettingsDialogOpen} onHide={() => toggleSettingsDialog(false)}>
+        <Settings closeDialog={() => toggleSettingsDialog(false)} />
       </Modal>
+
+      <Modal backdrop='static' show={isAboutDialogOpen} onHide={() => toggleAboutDialog(false)}>
+        <About closeDialog={() => toggleAboutDialog(false)} />
+      </Modal>
+
     </React.Fragment>
   );
 }

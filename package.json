@@ -1,20 +1,22 @@
 {
   "name": "futility",
-  "version": "1.0.0",
+  "version": "1.0.0-alpha",
   "main": "index.js",
   "repository": "git@github.com:SMontgomery/Futility.git",
   "author": "Sean Montgomery <sean@montry.dev>",
   "license": "MIT",
   "private": true,
   "scripts": {
+    "clean": "shx rm -rf dist && shx mkdir dist",
     "lint": "eslint 'src/**/*.js'",
     "lint-fix": "eslint --fix --quiet 'src/**/*.js'",
-    "format": "prettier --write 'src/**/*.js'",
-    "start": "parcel src/index.html",
-    "build": "parcel build src/index.html --out-dir prod",
-    "analyze": "source-map-explorer 'prod/*.js'",
+    "start": "yarn run clean && parcel src/index.html",
+    "prebuild": "node prebuild.js",
+    "build": "yarn run clean && parcel build src/index.html",
     "pretest": "eslint 'src/**/*.js'",
-    "test": "jest"
+    "test": "jest",
+    "analyze": "yarn run build && source-map-explorer 'prod/*.js'",
+    "licenseSummary": "license-checker --production --summary"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.17",
@@ -40,13 +42,18 @@
     "@babel/core": "^7.3.4",
     "@babel/preset-react": "^7.0.0",
     "babel-plugin-styled-components": "^1.10.0",
+    "deasync": "^0.1.14",
     "eslint": "^5.15.1",
     "eslint-config-google": "^0.12.0",
     "eslint-plugin-react": "^7.12.4",
     "eslint-plugin-react-hooks": "^1.6.0",
     "jest": "^24.5.0",
+    "license-checker": "^25.0.1",
+    "npm-license-crawler": "^0.2.1",
     "parcel-bundler": "^1.12.0",
     "sass": "^1.17.2",
+    "shelljs": "^0.8.3",
+    "shx": "^0.3.2",
     "source-map-explorer": "^1.8.0"
   }
 }

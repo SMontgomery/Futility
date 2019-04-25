@@ -3,5 +3,6 @@
 .cache/
 scrap/
 dist/
-prod/
 node_modules/
+yarn-error.log
+src/scripts/constants/buildConstants.js
