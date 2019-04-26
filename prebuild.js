@@ -9,10 +9,9 @@ const licenseCrawler = require('npm-license-crawler');
 const buildConstants = {};
 
 // Determine version
-const versionParts = execSync('git describe', {encoding: 'utf8'}).trim().split('-');
-const version = `${versionParts[0]}-${versionParts[1]} (${versionParts[2]})`;
-buildConstants.version = version;
-
+const version = execSync('git describe', {encoding: 'utf8'}).trim();
+const lastPartStart = version.lastIndexOf('-');
+buildConstants.version = `${version.substring(0, lastPartStart)} (${version.substring(lastPartStart + 1)})`;
 
 // Get current date/time
 buildConstants.buildDate = new Date().toUTCString().trim();

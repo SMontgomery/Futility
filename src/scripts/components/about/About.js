@@ -15,12 +15,12 @@ function About(props) {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body style={{'maxHeight': 'calc(100vh - 210px)', 'overflowY': 'auto'}}>
-        <p>
+        <div>
           <div><Translate id='app.version' data={{version: buildConstants.version}}/></div>
           <div><Translate id='app.buildDate' data={{buildDate: buildConstants.buildDate}}/></div>
-        </p>
+        </div>
 
-        <p>
+        <div>
           <Translate
             id='app.copyright'
             data={{
@@ -29,13 +29,13 @@ function About(props) {
               appName: appConstants.appName,
             }}
           />
-        </p>
+        </div>
 
-        <p>
+        <div>
           <Translate id='app.affiliation' data={{appName: appConstants.appName}}/>
-        </p>
+        </div>
 
-        <p>
+        <div>
           <span><Translate id='app.specialThanks'/>:</span>
           <ul>
             {buildConstants.directDependencies.map((dependency, index) =>
@@ -44,7 +44,7 @@ function About(props) {
               </li>
             )}
           </ul>
-        </p>
+        </div>
       </Modal.Body>
       <Modal.Footer>
         <Button onClick={ props.closeDialog }>
