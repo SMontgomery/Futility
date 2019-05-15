@@ -17,7 +17,8 @@ import {
   setBackgroundType, setBeadShape, setBoardGridEnabled, setCustomGridEnabled, setLineGridEnabled, setPegGridEnabled,
 } from '../state/actions/settingsActions';
 import {getTranslate, Translate} from 'react-localize-redux';
-import About from './about/About';
+import AboutDialog from './dialogs/AboutDialog';
+import {appConstants} from '../constants/appConstants';
 
 const StyledNavbar = styled(Navbar)`
     .nav-link {
@@ -53,10 +54,10 @@ function Header(props) {
   const [isGuidesMenuOpen, toggleGuidesMenu] = React.useState(false);
 
   return (
-    <React.Fragment>
+    <>
       <StyledNavbar variant='dark' bg='dark' className={props.className}>
         <Navbar.Brand>
-          { props.appName }
+          {appConstants.appName}
         </Navbar.Brand>
 
         <NavDropdown title={props.translate('menu.edit')}>
@@ -169,15 +170,14 @@ function Header(props) {
       </Modal>
 
       <Modal backdrop='static' show={isAboutDialogOpen} onHide={() => toggleAboutDialog(false)}>
-        <About closeDialog={() => toggleAboutDialog(false)} />
+        <AboutDialog closeDialog={() => toggleAboutDialog(false)} />
       </Modal>
 
-    </React.Fragment>
+    </>
   );
 }
 
 Header.propTypes = {
-  appName: PropTypes.string.isRequired,
   backgroundType: PropTypes.string.isRequired,
   beadShape: PropTypes.string.isRequired,
   boardGridEnabled: PropTypes.bool.isRequired,

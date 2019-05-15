@@ -3,7 +3,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import BoardCanvas from './BoardCanvas';
 import BeadCanvas from './BeadCanvas';
-import {setMouseCoordinates} from '../../state/actions/uiActions';
+import {setMouseCoordinates} from '../../state/actions/sessionActions';
 import {placeBead, placeBeads, removeBead, removeBeads} from '../../state/actions/projectActions';
 import styled from 'styled-components';
 import OverlayCanvas from './OverlayCanvas';
@@ -120,8 +120,8 @@ const mapStateToProps = (state) => ({
   customGridSettings: state.settings.customGrid,
   lineGridSettings: state.settings.lineGrid,
   pegGridSettings: state.settings.pegGrid,
-  selectedBead: state.ui.selectedBead,
-  selectedTool: state.ui.selectedTool,
+  selectedBead: state.session.selectedBead,
+  selectedTool: state.session.selectedTool,
 });
 
 const mapDispatchToProps = (dispatch) => ({

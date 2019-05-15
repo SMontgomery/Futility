@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import styled from 'styled-components';
-import BeadManager from '../../project/beadManager';
 
 const Palette = styled.div`
     line-height: 0;
@@ -20,7 +19,7 @@ const ColorButton = styled.div`
 function BeadPalette(props) {
   return (
     <Palette>
-      {props.beadManager.getBeads(props.selectedBrand).map((bead) => {
+      {props.beads.map((bead) => {
         return (
           <ColorButton
             key={bead.code}
@@ -34,7 +33,7 @@ function BeadPalette(props) {
 }
 
 BeadPalette.propTypes = {
-  beadManager: PropTypes.instanceOf(BeadManager).isRequired,
+  beads: PropTypes.array.isRequired,
   selectedBrand: PropTypes.string.isRequired,
   setBead: PropTypes.func.isRequired,
 };

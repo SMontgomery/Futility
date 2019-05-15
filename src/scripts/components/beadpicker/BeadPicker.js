@@ -4,20 +4,19 @@ import {connect} from 'react-redux';
 import BeadPalette from './BeadPalette';
 import BrandPicker from './BrandPicker';
 import SelectedBead from './SelectedBead';
-import BeadManager from '../../project/beadManager';
-import {setSelectedBead, setSelectedBrand} from '../../state/actions/uiActions';
+import {setSelectedBead, setSelectedBrand} from '../../state/actions/sessionActions';
 
 function BeadPicker(props) {
   return (
     <div>
       <SelectedBead selectedBead={props.selectedBead} />
       <BrandPicker
-        beadManager={props.beadManager}
+        brands={props.brands}
         selectedBrand={props.selectedBrand}
         setBrand={props.setBrand}
       />
       <BeadPalette
-        beadManager={props.beadManager}
+        beads={props.beads}
         selectedBrand={props.selectedBrand}
         setBead={props.setBead}
       />
@@ -26,7 +25,8 @@ function BeadPicker(props) {
 }
 
 BeadPicker.propTypes = {
-  beadManager: PropTypes.instanceOf(BeadManager).isRequired,
+  beads: PropTypes.array.isRequired,
+  brands: PropTypes.array.isRequired,
   selectedBead: PropTypes.object.isRequired,
   selectedBrand: PropTypes.string.isRequired,
   setBead: PropTypes.func.isRequired,
@@ -34,8 +34,10 @@ BeadPicker.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  selectedBead: state.ui.selectedBead,
-  selectedBrand: state.ui.selectedBrand,
+  beads: state.session.beads,
+  brands: state.session.brands,
+  selectedBead: state.session.selectedBead,
+  selectedBrand: state.session.selectedBrand,
 });
 
 const mapDispatchToProps = (dispatch) => ({

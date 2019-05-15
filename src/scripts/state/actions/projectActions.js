@@ -1,6 +1,7 @@
 import Project from '../../project/project';
 
 export const CREATE_PROJECT = 'CREATE_PROJECT';
+export const LOAD_PROJECT = 'LOAD_PROJECT';
 export const ADD_BOARD_COLUMN_TO_LEFT = 'ADD_BOARD_COLUMN_TO_LEFT';
 export const ADD_BOARD_COLUMN_TO_RIGHT = 'ADD_BOARD_COLUMN_TO_RIGHT';
 export const ADD_BOARD_ROW_TO_TOP = 'ADD_BOARD_ROW_TO_TOP';
@@ -21,6 +22,15 @@ export function createProject(boardWidth, boardHeight, boardsAcross, boardsDown)
 
   return {
     type: CREATE_PROJECT,
+    project: project.getProject(),
+  };
+}
+
+export function loadProject(existingProject) {
+  project = Project.loadProject(existingProject);
+
+  return {
+    type: LOAD_PROJECT,
     project: project.getProject(),
   };
 }

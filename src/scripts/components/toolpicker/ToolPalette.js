@@ -6,7 +6,7 @@ import Button from 'react-bootstrap/Button';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faPencilAlt} from '@fortawesome/free-solid-svg-icons/faPencilAlt';
 import {faSlash} from '@fortawesome/free-solid-svg-icons/faSlash';
-import {setSelectedTool} from '../../state/actions/uiActions';
+import {setSelectedTool} from '../../state/actions/sessionActions';
 import tools from '../../state/tools';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
@@ -87,7 +87,7 @@ ToolPalette.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  selectedTool: state.ui.selectedTool,
+  selectedTool: state.session.selectedTool,
   translate: getTranslate(state.localize),
 });
 

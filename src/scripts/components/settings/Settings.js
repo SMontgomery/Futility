@@ -235,7 +235,7 @@ function Settings(props) {
     '6': {'6': 0}, '7': {'7': 0}, '8': {'8': 0}, '9': {'9': 0}}, {}, {}, {}];
 
   return (
-    <React.Fragment>
+    <>
       <Modal.Header closeButton>
         <Modal.Title>
           <Translate id='settings.title'/>
@@ -288,7 +288,7 @@ function Settings(props) {
           <Translate id='settings.button.save'/>
         </Button>
       </Modal.Footer>
-    </React.Fragment>
+    </>
   );
 }
 

@@ -1,5 +1,6 @@
 import {
   CREATE_PROJECT,
+  LOAD_PROJECT,
   ADD_BOARD_COLUMN_TO_LEFT,
   ADD_BOARD_COLUMN_TO_RIGHT,
   ADD_BOARD_ROW_TO_TOP,
@@ -19,6 +20,7 @@ const projectReducerDefaultState = {};
 function projectReducer(state = projectReducerDefaultState, action) {
   switch (action.type) {
     case CREATE_PROJECT:
+    case LOAD_PROJECT:
     case ADD_BOARD_COLUMN_TO_LEFT:
     case ADD_BOARD_COLUMN_TO_RIGHT:
     case ADD_BOARD_ROW_TO_TOP:

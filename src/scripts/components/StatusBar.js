@@ -27,7 +27,7 @@ StatusBar.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  mouseCoordinates: state.ui.mouseCoordinates,
+  mouseCoordinates: state.session.mouseCoordinates,
   translate: getTranslate(state.localize),
 });
 

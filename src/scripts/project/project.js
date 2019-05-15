@@ -1,50 +1,53 @@
 import logger from '../utils/logger';
 import {isEqual, get, cloneDeep, setWith} from 'lodash';
 
+const versionCode = 1;
+
 export default class Project {
   /**
-     * Construct a Project used for tracking the placement of boards and beads.
-     *
-     * Internal Structure:
-     * {
-     *     boardWidth: 5,
-     *     boardHeight: 5,
-     *     boardsAcross: 2,
-     *     boardsDown: 2,
-     *     boards: [
-     *         {
-     *             '1': {
-     *                 '4': 0
-     *             },
-     *             '4': {
-     *                 '3': 0
-     *             }
-     *         },
-     *     ],
-     *     beads: [
-     *         {
-     *             bead: {
-     *                 brand: 'Perler',
-     *                 color: '#000000',
-     *                 type: 'regular',
-     *                 name: 'Black',
-     *                 code: '01'
-     *             },
-     *             count: 1
-     *         }
-     *     ]
-     * }
-     * Boards are in an array with their index being the index to the array. Each object in the boards array start
-     * with an object referencing the x coordinate of a specific peg. Within that is an object referencing the y
-     * coordinate with a value being the bead index to the beads array. so project.boards[0][1][4] has bead 0 which
-     * is a black bead.
-     *
-     * @param {!number} boardWidth is the width of the board which must be a number greater than 0.
-     * @param {!number} boardHeight is the height of the board which must be a number greater than 0.
-     * @param {!number} boardsAcross is the number of boards across which must be a number greater than 0.
-     * @param {!number} boardsDown is the number of boards down which must be a number greater than 0.
-     */
-  constructor(boardWidth, boardHeight, boardsAcross, boardsDown) {
+   * Construct a Project used for tracking the placement of boards and beads.
+   *
+   * Internal Structure:
+   * {
+   *     boardWidth: 5,
+   *     boardHeight: 5,
+   *     boardsAcross: 2,
+   *     boardsDown: 2,
+   *     boards: [
+   *         {
+   *             '1': {
+   *                 '4': 0
+   *             },
+   *             '4': {
+   *                 '3': 0
+   *             }
+   *         },
+   *     ],
+   *     beads: [
+   *         {
+   *             bead: {
+   *                 brand: 'Perler',
+   *                 color: '#000000',
+   *                 type: 'regular',
+   *                 name: 'Black',
+   *                 code: '01'
+   *             },
+   *             count: 1
+   *         }
+   *     ]
+   * }
+   * Boards are in an array with their index being the index to the array. Each object in the boards array start
+   * with an object referencing the x coordinate of a specific peg. Within that is an object referencing the y
+   * coordinate with a value being the bead index to the beads array. so project.boards[0][1][4] has bead 0 which
+   * is a black bead.
+   *
+   * @param {!number} boardWidth is the width of the board which must be a number greater than 0.
+   * @param {!number} boardHeight is the height of the board which must be a number greater than 0.
+   * @param {!number} boardsAcross is the number of boards across which must be a number greater than 0.
+   * @param {!number} boardsDown is the number of boards down which must be a number greater than 0.
+   * @param {string} createdAt is the creation date/time string.
+   */
+  constructor(boardWidth, boardHeight, boardsAcross, boardsDown, createdAt = new Date().toUTCString()) {
     if (!Project.isNumberInRange(boardWidth, 1)) {
       throw new Error('boardWith must be a number greater than 0.');
     }
@@ -73,12 +76,26 @@ export default class Project {
       boardsDown,
       boards: [],
       beads: [],
+      metadata: {
+        versionCode,
+        createdAt,
+      },
     };
 
     const boardCount = boardsAcross * boardsDown;
     for (let boardIndex = 0; boardIndex < boardCount; boardIndex++) {
       this._project.boards[boardIndex] = {};
     }
+  }
+
+  static loadProject(project) {
+    if (project.metadata.versionCode === versionCode) {
+      const newProject = new Project(1, 1, 1, 1);
+      newProject._project = JSON.parse(JSON.stringify(project));
+      return newProject;
+    }
+
+    throw new Error('Unknown project version.');
   }
 
   /**

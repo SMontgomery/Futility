@@ -1,66 +1,33 @@
 import PropTypes from 'prop-types';
-import React, {useEffect} from 'react';
-import {renderToStaticMarkup} from 'react-dom/server';
+import React from 'react';
 import {connect} from 'react-redux';
+import {setSelectedBead, setSelectedBrand} from '../state/actions/sessionActions';
 import Header from './Header';
 import LeftSideBar from './LeftSideBar';
 import StatusBar from './StatusBar';
-import BeadManager from '../project/beadManager';
 import RightSideBar from './RightSideBar';
 import WorkArea from './workarea/WorkArea';
-import {createProject} from '../state/actions/projectActions';
-import {isEmpty} from 'lodash';
-import {withLocalize} from 'react-localize-redux';
-import englishTranslations from '../../translations/en.translations';
 
 function Application(props) {
-  useEffect(() => {
-    props.initialize({
-      languages: [
-        {name: 'English', code: 'en'},
-      ],
-      options: {
-        renderToStaticMarkup,
-        renderInnerHtml: true,
-        defaultLanguage: 'en',
-      },
-    });
-
-    props.addTranslationForLanguage(englishTranslations, 'en');
-  }, []);
-
   return (
-    <>
-      {isEmpty(props.project) ?
-        (
-          <div>
-            {props.createProject(10, 10, 2, 2) && ''}
-          </div>
-        ) : (
-          <div className="page">
-            <Header className='header' appName={props.appName} />
+    <div className="page">
+      <Header className='header' />
 
-            <LeftSideBar className='left-sidebar' beadManager={props.beadManager} />
+      <LeftSideBar className='left-sidebar' />
 
-            <WorkArea className='main' project={props.project} />
+      <WorkArea className='main' project={props.project} />
 
-            <RightSideBar className='right-sidebar' />
+      <RightSideBar className='right-sidebar' />
 
-            <StatusBar className='footer' />
-          </div>
-        )
-      }
-    </>
+      <StatusBar className='footer' />
+    </div>
   );
 }
 
 Application.propTypes = {
-  addTranslationForLanguage: PropTypes.func.isRequired,
-  appName: PropTypes.string.isRequired,
-  beadManager: PropTypes.instanceOf(BeadManager).isRequired,
-  createProject: PropTypes.func.isRequired,
-  initialize: PropTypes.func.isRequired,
   project: PropTypes.object.isRequired,
+  setBead: PropTypes.func.isRequired,
+  setBrand: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -68,9 +35,9 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  createProject: (boardWidth, boardHeight, boardsAcross, boardsDown) =>
-    dispatch(createProject(boardWidth, boardHeight, boardsAcross, boardsDown)),
+  setBrand: (brand) => dispatch(setSelectedBrand(brand)),
+  setBead: (bead) => dispatch(setSelectedBead(bead)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(withLocalize(Application));
+export default connect(mapStateToProps, mapDispatchToProps)(Application);
 

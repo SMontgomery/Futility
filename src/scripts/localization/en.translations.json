@@ -12,7 +12,13 @@
     "count": "Count",
     "board": "Board",
     "position": "Position",
-    "ok": "OK"
+    "ok": "OK",
+    "cancel": "Cancel"
+  },
+  "initialPage": {
+    "selectOption": "Please Select an Option.",
+    "createProjectButton": "Create New Project",
+    "continueProjectButton": "Continue Existing Project"
   },
   "brand": {
     "PERLER": "Perler",
@@ -40,6 +46,20 @@
   },
   "about": {
     "title": "About ${appname}"
+  },
+  "create": {
+    "title": "Create Project",
+    "boardsAcross": "Boards Across",
+    "boardsDown": "Boards Down",
+    "heightNotice": "The project will be ${height} pegs high.",
+    "widthNotice": "The project will be ${width} pegs wide.",
+    "heightError": "Must be between ${min} and ${max}.",
+    "widthError": "Must be between ${min} and ${max}.",
+    "warning": {
+      "title": "Warning",
+      "message": "Creating a new project will replace the existing project in memory."
+    },
+    "createButton": "Create"
   },
   "settings": {
     "title": "Settings",

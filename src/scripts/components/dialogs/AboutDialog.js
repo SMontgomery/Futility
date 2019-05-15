@@ -6,9 +6,9 @@ import {Translate} from 'react-localize-redux';
 import {appConstants} from '../../constants/appConstants';
 import {buildConstants} from '../../constants/buildConstants';
 
-function About(props) {
+function AboutDialog(props) {
   return (
-    <React.Fragment>
+    <>
       <Modal.Header closeButton>
         <Modal.Title>
           <Translate id='about.title' data={{appName: appConstants.appName}}/>
@@ -51,12 +51,12 @@ function About(props) {
           <Translate id='common.ok'/>
         </Button>
       </Modal.Footer>
-    </React.Fragment>
+    </>
   );
 }
 
-About.propTypes = {
+AboutDialog.propTypes = {
   closeDialog: PropTypes.func.isRequired,
 };
 
-export default About;
+export default AboutDialog;

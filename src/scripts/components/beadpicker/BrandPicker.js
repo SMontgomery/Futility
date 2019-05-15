@@ -2,11 +2,10 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
-import BeadManager from '../../project/beadManager';
 import {Translate} from 'react-localize-redux';
 
 function BrandPicker(props) {
-  const brands = props.beadManager.getBrands();
+  const brands = props.brands;
 
   return (
     <div>
@@ -22,7 +21,7 @@ function BrandPicker(props) {
 }
 
 BrandPicker.propTypes = {
-  beadManager: PropTypes.instanceOf(BeadManager).isRequired,
+  brands: PropTypes.array.isRequired,
   selectedBrand: PropTypes.string.isRequired,
   setBrand: PropTypes.func.isRequired,
 };
